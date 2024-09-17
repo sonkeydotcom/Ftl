@@ -32,10 +32,10 @@ function App() {
             path="/checkout"
             element={<CheckOutPage setOrder={setOrder} />}
           />
-          <Route
+          {/*  <Route
             path="/order-confirmation"
             element={<OrderComfirmation order={order} />}
-          />
+          /> */}
         </Routes>
         <ToastContainer />
         <Footer />

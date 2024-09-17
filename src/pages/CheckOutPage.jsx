@@ -25,7 +25,7 @@ const CheckOutPage = ({ setOrder }) => {
 
     setOrder(newOrder);
 
-    navigate("/order-confirmation");
+    /*    navigate("/order-confirmation"); */
   };
 
   const uploadRecepit = (e) => {
@@ -309,7 +309,7 @@ const CheckOutPage = ({ setOrder }) => {
             <div></div>
           </div>
 
-          <div className="md:w-1/3  bg-red-500 p-6 rounded-lg shadow-md border">
+          <div className="md:w-1/3  bg-black text-white p-6 rounded-lg shadow-md border">
             <h3 className="text-lg font-semibold mb-4 ">Order Summary</h3>
             <div className="space-y-4">
               {cart.product.map((product) => (
