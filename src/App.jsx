@@ -13,6 +13,7 @@ import ProductDetails from "./pages/ProductDetails";
 import CheckOutPage from "./pages/CheckOutPage";
 import OrderComfirmation from "./pages/OrderComfirmation";
 import { useState } from "react";
+import FilterDataPage from "./pages/FilterDataPage";
 
 function App() {
   const [order, setOrder] = useState(null);
@@ -32,11 +33,9 @@ function App() {
             path="/checkout"
             element={<CheckOutPage setOrder={setOrder} />}
           />
-          {/*  <Route
-            path="/order-confirmation"
-            element={<OrderComfirmation order={order} />}
-          /> */}
+          <Route path="/filter" element={<FilterDataPage />} />
         </Routes>
+
         <ToastContainer />
         <Footer />
       </BrowserRouter>

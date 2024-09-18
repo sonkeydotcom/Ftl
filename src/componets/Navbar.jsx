@@ -7,16 +7,24 @@ import { CiShoppingCart } from "react-icons/ci";
 import { IoPersonOutline } from "react-icons/io5";
 import { CiSearch } from "react-icons/ci";
 import { useState } from "react";
-import { MenuList, Select } from "@mui/material";
+import LoginPage from "../pages/LoginPage";
 import { useSelector } from "react-redux";
 import { MdOutlineArrowDropDown } from "react-icons/md";
 import { MdOutlineArrowDropUp } from "react-icons/md";
 import { IoMdArrowDropright } from "react-icons/io";
+import SignupPage from "../pages/SignupPage";
+import Modal from "../Modal/Modal";
+import { setSearchTerm } from "../redux/ProductSlice";
+
 const Navbar = () => {
   const totalQuantity = useSelector((state) => state.cart.product);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [opendropMen, setOpenDropMen] = useState(false);
   const [opendropWomen, setOpenDropWomen] = useState(false);
+  const [isLogin, setIsLogin] = useState(true);
+  const [ismodalOpen, setIsModalOpen] = useState(false);
+  const [openSearch, setOpenSearch] = useState(false);
+  const [search, setSearch] = useState("");
   const handDropDownMen = () => {
     setOpenDropMen(!opendropMen);
   };
@@ -26,6 +34,26 @@ const Navbar = () => {
   };
   const handlemenu = () => {
     setIsMenuOpen(!isMenuOpen);
+  };
+
+  const openSignUp = () => {
+    setIsLogin(false);
+    setIsModalOpen(true);
+  };
+
+  const openLogin = () => {
+    setIsLogin(true);
+    setIsModalOpen(true);
+  };
+
+  const handleOpenSearch = () => {
+    setOpenSearch(true);
+  };
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    dispatch(setSearchTerm(search));
+    navigate("/filter");
   };
 
   return (
@@ -97,15 +125,34 @@ const Navbar = () => {
           </div>
         </div>
         <div className="flex items-center">
+          {openSearch && (
+            <div hidden md:block>
+              <form onSubmit={handleSearch}>
+                <input
+                  placeholder="search products"
+                  className="border-0 outline-gray-900"
+                  onChange={(e) => setSearch(e.target.value)}
+                />
+              </form>
+            </div>
+          )}
           <div className="px-4  hidden md:block">
-            <Link to="/search">
-              <CiSearch className="text-2xl cursor-pointer" />
+            <Link>
+              <CiSearch
+                className="text-2xl cursor-pointer"
+                onClick={handleOpenSearch}
+                /* onMouseLeave={handleCloseSearch} */
+              />
             </Link>
           </div>
           <div className="hidden md:flex items-center px-2">
-            <span className="mr-1">Account</span>
-
-            <IoPersonOutline className="cursor-pointer text-2xl" />
+            <button
+              className="hidden md:flex mx-4"
+              onClick={() => setIsModalOpen(true)}
+            >
+              Login | Register{" "}
+              <IoPersonOutline className="cursor-pointer text-2xl" />
+            </button>
           </div>
 
           <div className="flex items-center px-2">
@@ -160,6 +207,14 @@ const Navbar = () => {
         ) : (
           <></>
         )}
+
+        <Modal isModalOpen={ismodalOpen} setIsModalOpen={setIsModalOpen}>
+          {isLogin ? (
+            <LoginPage openSignUp={openSignUp} />
+          ) : (
+            <SignupPage openLogin={openLogin} />
+          )}
+        </Modal>
       </div>
     </nav>
   );
