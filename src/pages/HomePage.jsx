@@ -7,11 +7,23 @@ import { setProduct } from "../redux/ProductSlice";
 import { useEffect } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { Link } from "react-router-dom";
+import axios from "axios";
 const HomePage = () => {
   const dispatch = useDispatch();
   const product = useSelector((state) => state.product);
+
   useEffect(() => {
-    dispatch(setProduct(storeData));
+    const fetchProducts = async () => {
+      try {
+        const response = await axios.get(
+          "https://ftl-server.onrender.com/api/products"
+        );
+        dispatch(setProduct(response.data));
+      } catch (error) {
+        console.error("Error fetching products:", error);
+      }
+    };
+    fetchProducts();
   }, [dispatch]);
 
   return (

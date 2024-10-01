@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 const OrderComfirmation = ({ order }) => {
-  console.log(order);
   const navigate = useNavigate();
   return (
     <div className="conatiner mx-auto py-8 px-4 md:px16 lg:px-24">

@@ -170,7 +170,7 @@ const Navbar = () => {
 
         {isMenuOpen ? (
           <div
-            className={`absolute top-14 left-0 bg-black md:hidden flex flex-col items-start w-full h-screen p-6 transition-transform duration-500 ${
+            className={`absolute top-14 left-0 bg-black md:hidden flex flex-col items-start w-full h-screen p-6 transition-all duration-700 ease-in-out ${
               isMenuOpen
                 ? "translate-x-0 opacity-100"
                 : "-translate-x-full opacity-0"
@@ -184,7 +184,7 @@ const Navbar = () => {
               <li className="px-4 py-2 flex items-center cursor-pointer text-white relative group">
                 Men
                 <IoMdArrowDropright className="text-2xl ml-2" />
-                <ul className="absolute left-20 top-2 rounded-xl bg-white text-black font-bold hidden group-hover:block transition-opacity duration-300 opacity-0 group-hover:opacity-100 shadow px-4 w-full ">
+                <ul className="absolute left-20 top-2 rounded-xl bg-white text-black font-bold hidden group-hover:block transition-opacity duration-300 opacity-0 group-hover:opacity-100 shadow px-4 w-full">
                   <li className="py-3 cursor-pointer">T-Shirt</li>
                   <li className="py-3 cursor-pointer">Long-sleeve</li>
                   <li className="py-3 cursor-pointer">Cap</li>
