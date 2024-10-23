@@ -14,13 +14,14 @@ import CheckOutPage from "./pages/CheckOutPage";
 import OrderComfirmation from "./pages/OrderComfirmation";
 import { useState } from "react";
 import FilterDataPage from "./pages/FilterDataPage";
+import ResposiveNavBar from "./componets/NavBar/ResposiveNavBar";
 
 function App() {
   const [order, setOrder] = useState(null);
   return (
     <div className="conatiner">
       <BrowserRouter>
-        <Nabvar />
+        <ResposiveNavBar />
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/menu" element={<MenuNavbar />} />

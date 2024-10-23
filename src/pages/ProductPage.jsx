@@ -13,10 +13,11 @@ const ProductPage = ({ product }) => {
     dispatch(addToCart(product));
     toast("Added to cart");
   };
+
   return (
     <div>
       <div className=" md:gap-6 pl-3 pr-3 md:flex w-full justify-between md:items-center">
-        <Link to="/products/:id">
+        <Link to={`/products/${product.id}`}>
           <div className="  mx-2 rounded my-4 relative    transform transition-transform duration-300 ">
             <div>
               <img

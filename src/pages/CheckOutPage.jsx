@@ -337,7 +337,10 @@ const CheckOutPage = ({ setOrder }) => {
               <div className="flex justify-between">
                 <span>Total Price:</span>
                 <span className="font-semibold">
-                  ${cart.totalPrice.toFixed(2)}
+                  $
+                  {cart.totalPrice
+                    ? parseFloat(cart.totalPrice).toFixed(2)
+                    : "0.00"}
                 </span>
               </div>
 
