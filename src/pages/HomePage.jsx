@@ -11,6 +11,7 @@ import axios from "axios";
 const HomePage = () => {
   const dispatch = useDispatch();
   const product = useSelector((state) => state.product);
+  const imageUrl = JSON.parse(product.image)[0];
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -19,6 +20,7 @@ const HomePage = () => {
           "https://ftl-server.onrender.com/api/products"
         );
         dispatch(setProduct(response.data));
+        console.log(product);
       } catch (error) {
         console.error("Error fetching products:", error);
       }
@@ -34,8 +36,8 @@ const HomePage = () => {
           Top Sales
         </h1>
         <div className="grid grid-cols-2 md:grid-cols-6">
-          {product.product.slice(0, 6).map((item) => (
-            <ProductPage key={uuidv4()} product={item} />
+          {product.product.map((item) => (
+            <ProductPage key={item.id} product={item} images={item.image} />
           ))}
         </div>
         <div className="flex items-center mb-6 justify-center">
