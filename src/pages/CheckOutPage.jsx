@@ -305,42 +305,34 @@ const CheckOutPage = ({ setOrder }) => {
                 </div>
               </div>
             </div>
-
-            <div></div>
           </div>
 
-          <div className="md:w-1/3  bg-black text-white p-6 rounded-lg shadow-md border">
+          <div className="  bg-black text-white p-6 rounded-lg shadow-md border">
             <h3 className="text-lg font-semibold mb-4 ">Order Summary</h3>
-            <div className="space-y-4">
+            <div className="space-y-4 ">
               {cart.product.map((product) => (
                 <div className="flex items-center">
-                  <div>
-                    <img
-                      src={product.image}
-                      className="w-16 h-16 object-contain rounded"
-                    />
-                    <div className="ml-4">
-                      <h3 className="text-md font-semibold">{product.name}</h3>
-                      <p className="text-gray-600">
-                        {product.price} X {product.quantity}
-                      </p>
-                      <div className="text-gray-800">
-                        {product.price * product.quantity}
-                      </div>
-                    </div>
+                  <img
+                    src={product.image}
+                    className="w-16 h-16 object-contain rounded"
+                  />
+                  <div className="ml-4">
+                    <h3 className="text-md font-semibold">{product.name}</h3>
+                    <p className="text-gray-600">
+                      {product.price} X {product.quantity}
+                    </p>
                   </div>
                 </div>
-              ))}{" "}
+              ))}
             </div>
 
             <div className="mt-4 border-t pt-4">
               <div className="flex justify-between">
                 <span>Total Price:</span>
                 <span className="font-semibold">
-                  $
-                  {cart.totalPrice
-                    ? parseFloat(cart.totalPrice).toFixed(2)
-                    : "0.00"}
+                  <span className="font-semibold">
+                    ${cart.totalPrice.toFixed(2)}
+                  </span>
                 </span>
               </div>
 

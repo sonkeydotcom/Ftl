@@ -15,6 +15,12 @@ import OrderComfirmation from "./pages/OrderComfirmation";
 import { useState } from "react";
 import FilterDataPage from "./pages/FilterDataPage";
 import ResposiveNavBar from "./componets/NavBar/ResposiveNavBar";
+import LoginPage from "./pages/LoginPage";
+import NewArrivals from "./pages/NewArrivals/NewArrivals";
+import TopSales from "./pages/TopSales/TopSales";
+import BestCollections from "./pages/BestCollections/BestCollections";
+import AllProduct from "./pages/AllProduct/AllProduct";
+import Whatsapp from "./componets/Whatsapp/Whatsapp";
 
 function App() {
   const [order, setOrder] = useState(null);
@@ -22,19 +28,25 @@ function App() {
     <div className="conatiner">
       <BrowserRouter>
         <ResposiveNavBar />
+        <Whatsapp />
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/menu" element={<MenuNavbar />} />
+          <Route path="/new-arrivals" element={<NewArrivals />} />
+          <Route path="/top-sales" element={<TopSales />} />
+          <Route path="/best-collections" element={<BestCollections />} />
           <Route path="/collections" element={<Collections />} />
           <Route path="/search" element={<SearchPage />} />
+
           <Route path="/cart" element={<Cartpage />} />
-          <Route path="/products" element={<ProductPage />} />
+          <Route path="/products" element={<AllProduct />} />
           <Route path="/products/:id" element={<ProductDetails />} />
           <Route
             path="/checkout"
             element={<CheckOutPage setOrder={setOrder} />}
           />
           <Route path="/filter" element={<FilterDataPage />} />
+          <Route path="/Login" element={<LoginPage />} />
         </Routes>
 
         <ToastContainer />

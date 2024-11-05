@@ -27,7 +27,7 @@ const MobileSearchBar = ({ closeSearchHandle, openSearch }) => {
   return (
     <>
       {openSearch && (
-        <div className="bg-black absolute bg-opacity-10 backdrop-blur-md h-[100%] top-0 right-0 w-full">
+        <div className="bg-black fixed z-10 bg-opacity-10 backdrop-blur-md h-[100%] top-0 right-0 w-full">
           <div
             className={`bg-white md:w-[400px]  absolute right-0 top-0 h-[100%] w-[250px] px-3 py-4   transition-transform duration-300 ease-in-out ${
               showMenu

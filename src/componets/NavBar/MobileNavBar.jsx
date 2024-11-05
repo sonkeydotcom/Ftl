@@ -5,6 +5,7 @@ import { BsPersonCircle } from "react-icons/bs";
 import { IoPersonAddSharp } from "react-icons/io5";
 import { GiHearts } from "react-icons/gi";
 import { IoLogoWhatsapp } from "react-icons/io";
+import { Link } from "react-router-dom";
 
 const MobileNavBar = ({ closeMenuHandle, isOpen }) => {
   const [showMenu, setShowMenu] = useState(false);
@@ -19,10 +20,15 @@ const MobileNavBar = ({ closeMenuHandle, isOpen }) => {
     }
   }, [isOpen]);
 
+  const handleLinkClick = () => {
+    // Close the mobile menu when any link is clicked
+    closeMenuHandle();
+  };
+
   return (
     <>
       {isOpen && (
-        <div className="bg-black absolute bg-opacity-10 backdrop-blur-md h-full top-0 left-0 w-full">
+        <div className="bg-black z-10 fixed bg-opacity-10 backdrop-blur-md h-full top-0 left-0 w-full">
           <div
             className={`bg-white md:w-[400px] top-0 h-full w-[250px] px-3 py-4 transition-transform duration-300 ease-in-out ${
               showMenu
@@ -31,7 +37,7 @@ const MobileNavBar = ({ closeMenuHandle, isOpen }) => {
             }`}
           >
             <div className="flex justify-between items-center mb-10">
-              <h1 className="text-[20px] font-bold">Menu</h1>
+              <h1 className="text-[20px] font-bold">FTL</h1>
               <RiCloseLargeLine
                 className="md:text-[25px] text-[20px] cursor-pointer"
                 onClick={closeMenuHandle}
@@ -40,31 +46,44 @@ const MobileNavBar = ({ closeMenuHandle, isOpen }) => {
             <div className="flex justify-between items-center mt-2 flex-col">
               <ul className="w-full space-y-4 font-semibold text-[18px] cursor-pointer">
                 <li className="flex items-center justify-between">
-                  <span>New Arrivals</span>
+                  <Link to="/products" onClick={handleLinkClick}>
+                    <span>All Products</span>
+                  </Link>
                   <span>
                     <FaAngleRight />
                   </span>
                 </li>
                 <li className="flex items-center justify-between">
-                  <span>Top Sales</span>
+                  <Link to="/new-arrivals" onClick={handleLinkClick}>
+                    <span>New Arrivals</span>
+                  </Link>
                   <span>
                     <FaAngleRight />
                   </span>
                 </li>
                 <li className="flex items-center justify-between">
-                  <span>Best Collections</span>
+                  <Link to="/top-sales" onClick={handleLinkClick}>
+                    <span>Top Sales</span>
+                  </Link>
                   <span>
                     <FaAngleRight />
                   </span>
                 </li>
                 <li className="flex items-center justify-between">
-                  <span>Men Collections</span>
+                  <Link to="/best-collections" onClick={handleLinkClick}>
+                    <span>Best Collections</span>
+                  </Link>
+
                   <span>
                     <FaAngleRight />
                   </span>
                 </li>
+
                 <li className="flex items-center justify-between">
-                  <span>Female Collections</span>
+                  <Link to="/best-collections" onClick={handleLinkClick}>
+                    <span>Accessories</span>
+                  </Link>
+
                   <span>
                     <FaAngleRight />
                   </span>
@@ -73,9 +92,11 @@ const MobileNavBar = ({ closeMenuHandle, isOpen }) => {
             </div>
             <div className="border-y-2 my-4 py-4 flex items-center">
               <BsPersonCircle className="mr-4" />
-              <span className="text-[18px] font-semibold cursor-pointer">
-                Login
-              </span>
+              <Link>
+                <span className="text-[18px] font-semibold cursor-pointer">
+                  Login
+                </span>
+              </Link>
             </div>
             <div className="border-b-2 my-4 py-2 flex items-center">
               <IoPersonAddSharp className="mr-4" />

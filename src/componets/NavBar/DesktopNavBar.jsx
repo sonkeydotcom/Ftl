@@ -7,7 +7,12 @@ import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { BsPersonCircle } from "react-icons/bs";
 
-const DesktopNavBar = ({ openMenuHandle, openSearchHandle }) => {
+const DesktopNavBar = ({
+  openMenuHandle,
+  openSearchHandle,
+  handleCartOpen,
+  handleLoginOpen,
+}) => {
   const totalQuantity = useSelector((state) => state.cart.product);
 
   return (
@@ -18,7 +23,10 @@ const DesktopNavBar = ({ openMenuHandle, openSearchHandle }) => {
           onClick={openMenuHandle}
         />
 
-        <BsPersonCircle className="md:text-[30px] text-[20px] cursor-pointer" />
+        <BsPersonCircle
+          className="md:text-[30px] text-[20px] cursor-pointer"
+          onClick={handleLoginOpen}
+        />
       </div>
       <div className="bg-white ">
         <Link to="/">
@@ -38,9 +46,12 @@ const DesktopNavBar = ({ openMenuHandle, openSearchHandle }) => {
             onClick={openSearchHandle}
           />
         </span>
-        <span className="flex ">
-          <Link to="/cart">
-            <GiShoppingCart className="md:text-[30px] text-[18px] cursor-pointer" />
+        <span className="flex items-center ">
+          <Link to="">
+            <GiShoppingCart
+              className="md:text-[30px] text-[18px] cursor-pointer"
+              onClick={handleCartOpen}
+            />
           </Link>
 
           {totalQuantity.length > 0 && (
