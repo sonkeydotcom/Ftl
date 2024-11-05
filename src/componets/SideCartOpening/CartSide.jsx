@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { RiCloseLargeLine } from "react-icons/ri";
 import { useSelector, useDispatch } from "react-redux";
 import { FaTrashAlt } from "react-icons/fa";
-import emprtybag1 from "/Users/duru/Desktop/FTL/ftl/src/assets/images/emptybag/emptybag.jpg";
+import emprtybag1 from "../SideCartOpening/emptybag/emptybag.jpg";
 import Modal from "../../Modal/Modal";
 import { FiMinus } from "react-icons/fi";
 import { GoPlus } from "react-icons/go";
