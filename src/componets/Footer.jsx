@@ -8,7 +8,7 @@ const Footer = () => {
   return (
     <div className="bg-black pt-5 pb-2 px-3 md:px-4">
       <div className="bg-white flex flex-col">
-        <div className="bg-white flex flex-col md:flex-row px-[30px] justify-between mb-5 border-black border-b-[1px] mb:border-b-[0px]">
+        <div className="bg-white flex flex-col md:flex-row px-2 md:px-[30px] justify-between mb-5 border-black border-b-[1px] mb:border-b-[0px]">
           {/* Contact Section */}
           <div className="p-4 flex flex-col md:w-[25%] w-full md:border-r-[1px] border-black md:border-b-0 border-b-2">
             <h4 className="font-bold mb-2">Contact</h4>
