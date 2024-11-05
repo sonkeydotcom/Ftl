@@ -31,7 +31,7 @@ const DesktopNavBar = ({
       <div className="bg-white ">
         <Link to="/">
           {" "}
-          <h1 className="md:text-[40px] text-[17px] text-center name font-bold">
+          <h1 className="md:text-[40px] text-[20px] text-center name font-bold">
             FEEL THE LIFESTYLE
           </h1>
         </Link>
@@ -42,14 +42,14 @@ const DesktopNavBar = ({
         </span>
         <span>
           <CiSearch
-            className="md:text-[30px] text-[20px] cursor-pointer"
+            className="md:text-[30px] text-[28px] cursor-pointer"
             onClick={openSearchHandle}
           />
         </span>
         <span className="flex items-center ">
           <Link to="">
             <GiShoppingCart
-              className="md:text-[30px] text-[20px] cursor-pointer"
+              className="md:text-[30px] text-[28px] cursor-pointer"
               onClick={handleCartOpen}
             />
           </Link>
