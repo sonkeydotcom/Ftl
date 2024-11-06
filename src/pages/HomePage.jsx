@@ -11,7 +11,6 @@ import axios from "axios";
 const HomePage = () => {
   const dispatch = useDispatch();
   const product = useSelector((state) => state.product);
-  const imageUrl = JSON.parse(product.image)[0];
 
   useEffect(() => {
     const fetchProducts = async () => {

@@ -20,12 +20,13 @@ const ProductPage = ({ product, images }) => {
       <div className=" md:gap-6 pl-3 pr-3 md:flex w-full justify-between md:items-center">
         <Link to={`/products/${product.id}`}>
           <div className="  mx-2 rounded my-4 relative    transform transition-transform duration-300 ">
-            <img src={images} alt={product.name} />
+            <img src={images[0]} alt={product.name} />
             <div className=" flex flex-col justify-between  p-4">
               <div className="flex flex-col-reverse  justify-start md:flex-row   mb-4 md:items-center md:justify-between">
                 <h3 className=" text-lg font-semibold">{product.name}</h3>
                 <p className="text-gray-500">{product.description}</p>
                 <p className="text-gray-500">${product.price}</p>
+                kkk
               </div>
               <div className="flex items-center mt-2 justify-center">
                 <button
