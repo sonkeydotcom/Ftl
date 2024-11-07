@@ -1,12 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { addToCart } from "../redux/CartSlice";
+import { CiHeart } from "react-icons/ci";
+import { AiOutlinePlus } from "react-icons/ai";
+import { addToWishList } from "../redux/wishListSlice";
 
 const ProductPage = ({ product, images }) => {
   const dispatch = useDispatch();
+  const [isInWishlist, setIsInWishlist] = useState(false); // Track wishlist state
 
   const handleAddToCart = (e, product) => {
     e.stopPropagation();
@@ -15,8 +19,16 @@ const ProductPage = ({ product, images }) => {
     toast("Added to cart");
   };
 
+  const handleAddToWishList = () => {
+    if (isInWishlist) return; // If already in wishlist, do nothing
+
+    dispatch(addToWishList(product)); // Correctly dispatch the action here
+    setIsInWishlist(true); // Mark as added to wishlist
+    toast.success("Added to wishlist");
+  };
+
   return (
-    <div className="md:gap-6 pl-3 pr-3 md:flex w-full justify-between md:items-start">
+    <div className="md:gap-6 pl-3 py-10 pr-3 md:flex w-full flex-col justify-between md:items-start">
       <Link to={`/products/${product.id}`} className="w-full">
         <div className="mx-2 rounded my-4 relative transform transition-transform duration-300">
           {/* Product Image */}
@@ -24,7 +36,7 @@ const ProductPage = ({ product, images }) => {
             <img
               src={images[0]}
               alt={product.name}
-              className="w-full h-full object-cover mx-auto rounded-md"
+              className="w-full h-full object-contain mx-auto rounded-md"
             />
           </div>
 
@@ -42,36 +54,28 @@ const ProductPage = ({ product, images }) => {
             </p>
 
             {/* Add to Cart Button */}
-            <div className="flex justify-center mt-4">
-              <button
-                onClick={(e) => handleAddToCart(e, product)}
-                className="relative flex items-center justify-between w-36 h-10 cursor-pointer border-b-2 border-r-4 border-gray-800 rounded-lg bg-gray-100 shadow-lg overflow-hidden transition-transform duration-300 ease-in-out transform hover:scale-105 active:translate-x-1 active:translate-y-1 group"
-              >
-                <span className="text-gray-800 font-semibold transition-transform duration-300 ease-in-out transform translate-x-6 group-hover:translate-x-[-150%]">
-                  Add Item
-                </span>
-                <span className="absolute flex items-center justify-center w-10 h-full bg-gray-200 transition-transform duration-300 ease-in-out transform -translate-x-full group-hover:w-full group-hover:translate-x-0">
-                  <svg
-                    className="w-5 text-gray-800"
-                    fill="none"
-                    height="24"
-                    stroke="currentColor"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    viewBox="0 0 24 24"
-                    width="24"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <line x1="12" x2="12" y1="5" y2="19"></line>
-                    <line x1="5" x2="19" y1="12" y2="12"></line>
-                  </svg>
-                </span>
-              </button>
-            </div>
           </div>
         </div>
       </Link>
+      <div className="mt-4 md:mt-0 flex justify-between">
+        <button
+          title="Add to Cart"
+          onClick={(e) => handleAddToCart(e, product)}
+          className="relative flex items-center px-8 py-1 justify-between cursor-pointer border-b-2 border-r-4 border-gray-0 rounded-lg bg-gray-0 shadow-lg overflow-hidden transition-transform duration-300 ease-in-out transform hover:scale-105 active:translate-x-1 active:translate-y-1 group"
+        >
+          <AiOutlinePlus />
+        </button>
+        <button
+          onClick={handleAddToWishList}
+          className={`relative flex items-center px-4 py-1 justify-between cursor-pointer border-b-2 border-r-4 rounded-lg bg-gray-0 shadow-lg overflow-hidden transition-transform duration-300 ease-in-out transform hover:scale-105 active:translate-x-1 active:translate-y-1 group ${
+            isInWishlist ? "text-red-500 border-red-500" : "text-gray-500"
+          }`}
+          title="Add to Wishlist" // Tooltip text
+          disabled={isInWishlist} // Disable button if already in wishlist
+        >
+          <CiHeart />
+        </button>
+      </div>
 
       <ToastContainer />
     </div>
