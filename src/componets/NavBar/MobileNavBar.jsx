@@ -37,7 +37,7 @@ const MobileNavBar = ({ closeMenuHandle, isOpen }) => {
             }`}
           >
             <div className="flex justify-between items-center mb-10">
-              <h1 className="text-[20px] font-bold">FTL</h1>
+              <h1 className="text-[25px]  text-indigo-600 font-bold">FTL</h1>
               <RiCloseLargeLine
                 className="md:text-[25px] text-[20px] cursor-pointer"
                 onClick={closeMenuHandle}

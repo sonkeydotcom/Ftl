@@ -46,6 +46,7 @@ function App() {
             element={<CheckOutPage setOrder={setOrder} />}
           />
           <Route path="/filter" element={<FilterDataPage />} />
+          <Route path="/order-confirmation" element={<OrderComfirmation />} />
           <Route path="/Login" element={<LoginPage />} />
         </Routes>
 

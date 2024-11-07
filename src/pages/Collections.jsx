@@ -12,7 +12,7 @@ const Collections = () => {
       </h1>
       <div className="grid grid-cols-2 md:grid-cols-6">
         {product.product.map((item) => (
-          <ProductPage key={uuidv4()} product={item} />
+          <ProductPage key={item.id} product={item} />
         ))}
       </div>
       <div className="flex items-center mb-6 justify-center">

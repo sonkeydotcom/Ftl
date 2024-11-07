@@ -19,7 +19,6 @@ const HomePage = () => {
           "https://ftl-server.onrender.com/api/products"
         );
         dispatch(setProduct(response.data));
-        console.log(product);
       } catch (error) {
         console.error("Error fetching products:", error);
       }

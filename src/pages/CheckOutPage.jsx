@@ -1,106 +1,169 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FaAngleDown, FaAngleUp } from "react-icons/fa";
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
-const CheckOutPage = ({ setOrder }) => {
-  const [recepit, setRecepit] = useState("");
+import { useNavigate, useLocation } from "react-router-dom";
+
+const CheckoutPage = () => {
+  const location = useLocation(); // Use location hook to get passed state
   const [billingToggle, setBillingToggle] = useState(true);
   const [shippingToggle, setShippingToggle] = useState(false);
   const [paymentToggle, setPaymentToggle] = useState(false);
-  const [shippingInfo, setShippingInfo] = useState({
-    address: "39 road gwarinpa",
-    city: "abuja",
-    zip: "12334",
+
+  // Set initial state based on passed data (if available)
+  const [billingInfo, setBillingInfo] = useState({
+    name: location.state?.billingInfo?.name || "",
+    email: location.state?.billingInfo?.email || "",
+    phone: location.state?.billingInfo?.phone || "",
   });
+
+  const [shippingInfo, setShippingInfo] = useState({
+    address: location.state?.shippingInfo?.address || "",
+    city: location.state?.shippingInfo?.city || "",
+    zip: location.state?.shippingInfo?.zip || "",
+  });
+
+  const [paymentMethod, setPaymentMethod] = useState(
+    location.state?.paymentMethod || "COD"
+  );
+
+  const cart = useSelector((state) => state.cart);
   const navigate = useNavigate();
+
+  const [errors, setErrors] = useState({});
+
+  // Handle form submission
   const handleOrder = () => {
-    const newOrder = {
-      product: cart.product,
-      orderNumber: "123333334",
-      shippinginformation: shippingInfo,
-      totalPrice: cart.totalPrice,
+    const validationErrors = validateForm();
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);
+      return; // Don't proceed if validation fails
+    }
+
+    const orderDetails = {
+      billingInfo,
+      shippingInfo,
+      paymentMethod,
+      cart,
     };
 
-    console.log("Setting order:", newOrder);
-
-    setOrder(newOrder);
-
-    /*    navigate("/order-confirmation"); */
+    navigate("/order-confirmation", { state: orderDetails });
   };
 
-  const uploadRecepit = (e) => {
-    setRecepit(e.target.files[0]);
-  };
-  const handleUploadImage = () => {
-    const formData = new FormData();
-    formData.append("recepit", recepit);
-    axios.post("url", formData).then((res) => {
-      console.log(res);
-    });
+  // Validate form data
+  const validateForm = () => {
+    const validationErrors = {};
+    if (!billingInfo.name) validationErrors.name = "Name is required";
+    if (!billingInfo.email) validationErrors.email = "Email is required";
+    if (!billingInfo.phone) validationErrors.phone = "Phone is required";
+    if (!shippingInfo.address) validationErrors.address = "Address is required";
+    if (!shippingInfo.city) validationErrors.city = "City is required";
+    if (!shippingInfo.zip) validationErrors.zip = "Zip code is required";
+    return validationErrors;
   };
 
-  const [paymentMethod, setPaymentMethod] = useState("cod");
-  const cart = useSelector((state) => state.cart);
+  const handleBillingChange = (e) => {
+    const { name, value } = e.target;
+    setBillingInfo((prev) => ({ ...prev, [name]: value }));
+
+    if (value) {
+      setErrors((prevErrors) => {
+        const newErrors = { ...prevErrors };
+        delete newErrors[name]; // Remove error if field is filled
+        return newErrors;
+      });
+    }
+  };
+
+  const handleShippingChange = (e) => {
+    const { name, value } = e.target;
+    setShippingInfo((prev) => ({ ...prev, [name]: value }));
+
+    if (value) {
+      setErrors((prevErrors) => {
+        const newErrors = { ...prevErrors };
+        delete newErrors[name]; // Remove error if field is filled
+        return newErrors;
+      });
+    }
+  };
 
   return (
-    <div className="conatiner mx-auto py-8 min-h-96 px-4 md:px-16 lg:px-24">
+    <div className="container mx-auto py-8 min-h-96 px-4 md:px-16 lg:px-24">
       <div className="">
         <h3 className="text-2xl font-semibold mb-4">CHECKOUT</h3>
-        <div className="flex flex-col md:flex-row justify-between  space-x-10 mt-8">
+        <div className="flex flex-col md:flex-row justify-between space-x-0 mt-8">
           <div className="md:w-2/3">
+            {/* Billing Info Section */}
             <div className="border p-2 mb-6">
-              <div className="flex items-center justify-between ">
+              <div className="flex items-center justify-between">
                 <h3 className="text-lg font-semibold mb-2">
-                  Biling Information
+                  Billing Information
                 </h3>
                 <button onClick={() => setBillingToggle(!billingToggle)}>
-                  {" "}
                   {billingToggle ? <FaAngleDown /> : <FaAngleUp />}
                 </button>
               </div>
 
               <div className={`space-y-4 ${billingToggle ? "" : "hidden"}`}>
                 <div>
-                  <label htmlFor="" className="block text-gray-700">
+                  <label htmlFor="name" className="block text-gray-700">
                     Name
                   </label>
                   <input
                     type="text"
+                    id="name"
+                    name="name"
                     className="w-full px-3 py-2 border"
                     placeholder="Enter Your Name"
+                    value={billingInfo.name}
+                    onChange={handleBillingChange}
                   />
+                  {errors.name && (
+                    <p className="text-red-500 text-sm">{errors.name}</p>
+                  )}
                 </div>
 
                 <div>
-                  <label htmlFor="" className="block text-gray-700">
+                  <label htmlFor="email" className="block text-gray-700">
                     Email
                   </label>
                   <input
                     type="email"
+                    id="email"
+                    name="email"
                     className="w-full px-3 py-2 border"
                     placeholder="Email Address"
+                    value={billingInfo.email}
+                    onChange={handleBillingChange}
                   />
+                  {errors.email && (
+                    <p className="text-red-500 text-sm">{errors.email}</p>
+                  )}
                 </div>
 
                 <div>
-                  <div>
-                    <label htmlFor="" className="block text-gray-700">
-                      Phone
-                    </label>
-                    <input
-                      type="Phone "
-                      className="w-full px-3 py-2 border"
-                      placeholder="Phone Number"
-                    />
-                  </div>
+                  <label htmlFor="phone" className="block text-gray-700">
+                    Phone
+                  </label>
+                  <input
+                    type="text"
+                    id="phone"
+                    name="phone"
+                    className="w-full px-3 py-2 border"
+                    placeholder="Phone Number"
+                    value={billingInfo.phone}
+                    onChange={handleBillingChange}
+                  />
+                  {errors.phone && (
+                    <p className="text-red-500 text-sm">{errors.phone}</p>
+                  )}
                 </div>
               </div>
             </div>
 
-            {/* SHIPIING DIV */}
-
+            {/* Shipping Info Section */}
             <div className="border p-2 mb-6">
-              <div className="flex items-center justify-between ">
+              <div className="flex items-center justify-between">
                 <h3 className="text-lg font-semibold mb-2">
                   Shipping Information
                 </h3>
@@ -111,67 +174,64 @@ const CheckOutPage = ({ setOrder }) => {
 
               <div className={`space-y-4 ${shippingToggle ? "" : "hidden"}`}>
                 <div>
-                  <label htmlFor="" className="block text-gray-700">
+                  <label htmlFor="address" className="block text-gray-700">
                     Address
                   </label>
                   <input
                     type="text"
+                    id="address"
                     name="address"
                     className="w-full px-3 py-2 border"
                     placeholder="Enter Address"
-                    onChange={(e) =>
-                      setShippingInfo({
-                        ...shippingInfo,
-                        address: e.target.value,
-                      })
-                    }
+                    value={shippingInfo.address}
+                    onChange={handleShippingChange}
                   />
+                  {errors.address && (
+                    <p className="text-red-500 text-sm">{errors.address}</p>
+                  )}
                 </div>
 
                 <div>
-                  <label htmlFor="" className="block text-gray-700">
+                  <label htmlFor="city" className="block text-gray-700">
                     City
                   </label>
                   <input
-                    type="email"
-                    name="email"
+                    type="text"
+                    id="city"
+                    name="city"
                     className="w-full px-3 py-2 border"
                     placeholder="Enter City Name"
-                    onChange={(e) =>
-                      setShippingInfo({
-                        ...shippingInfo,
-                        city: e.target.value,
-                      })
-                    }
+                    value={shippingInfo.city}
+                    onChange={handleShippingChange}
                   />
+                  {errors.city && (
+                    <p className="text-red-500 text-sm">{errors.city}</p>
+                  )}
                 </div>
 
                 <div>
-                  <div>
-                    <label htmlFor="" className="block text-gray-700">
-                      Zip Code
-                    </label>
-                    <input
-                      type="text"
-                      name="zip code"
-                      className="w-full px-3 py-2 border"
-                      placeholder="Enter Zip Code"
-                      onChange={(e) =>
-                        setShippingInfo({
-                          ...shippingInfo,
-                          zip: e.target.value,
-                        })
-                      }
-                    />
-                  </div>
+                  <label htmlFor="zip" className="block text-gray-700">
+                    Zip Code
+                  </label>
+                  <input
+                    type="text"
+                    id="zip"
+                    name="zip"
+                    className="w-full px-3 py-2 border"
+                    placeholder="Enter Zip Code"
+                    value={shippingInfo.zip}
+                    onChange={handleShippingChange}
+                  />
+                  {errors.zip && (
+                    <p className="text-red-500 text-sm">{errors.zip}</p>
+                  )}
                 </div>
               </div>
             </div>
 
-            {/* PAYMENT DIV */}
-
+            {/* Payment Info Section */}
             <div className="border p-2 mb-6">
-              <div className="flex items-center justify-between ">
+              <div className="flex items-center justify-between">
                 <h3 className="text-lg font-semibold mb-2">Payment Method</h3>
                 <button onClick={() => setPaymentToggle(!paymentToggle)}>
                   {paymentToggle ? <FaAngleDown /> : <FaAngleUp />}
@@ -184,121 +244,45 @@ const CheckOutPage = ({ setOrder }) => {
                     <input
                       type="radio"
                       className="mr-2"
-                      checked={paymentMethod === "Cash On Delivery"}
-                      onClick={() => setPaymentMethod("Cash On Delivery")}
+                      checked={paymentMethod === "Cash on Delivery"}
+                      onChange={() => setPaymentMethod("Cash on Delivery")}
                     />
-                    <span>Cash On Delivery</span>
+                    <div>
+                      {" "}
+                      <span>Cash on Delivery</span> <span>(Lagos Only!)</span>
+                    </div>
                   </div>
-                  <div className="flex items-center p-1">
-                    <input
-                      type="radio"
-                      className="mr-2"
-                      checked={paymentMethod === "Bank transfer"}
-                      onClick={() => setPaymentMethod("Bank transfer")}
-                    />
-                    <span>Bank transfer</span>
-                  </div>
+
                   <div className="flex items-center p-1">
                     <input
                       type="radio"
                       className="mr-2"
                       checked={paymentMethod === "Debit Card"}
-                      onClick={() => setPaymentMethod("Debit Card")}
+                      onChange={() => setPaymentMethod("Debit Card")}
                     />
-                    <span>Debit Card</span>
+                    <span>Card</span>
                   </div>
 
-                  {/*  CASH ON DELIVERY ENDS HERE  */}
-
-                  {/*  BANK TRANSFER  */}
-                  {paymentMethod === "Bank transfer" && (
-                    <div className="bg-gray-100 p-4 rounded mb-4">
-                      <form>
-                        <div className="flex flex-col mb-4">
-                          <h3 className="flex items-center">
-                            Name: <h3 className="font-bold">FTL STORE</h3>
-                          </h3>
-                          <div className="mb-1 flex items-center">
-                            <p className="mr-1 ">Opay:</p>
-                            <p>0042316623</p>
-                          </div>
-                          <div className="flex items-center">
-                            <p className="mr-1">Moniepoint:</p>
-                            <p>0042335353</p>
-                          </div>
-                        </div>
-                        <hr />
-                        <div className="mt-4">
-                          <p className="text-gray-600">
-                            Upload receipt for Comfirmation
-                          </p>
-                          <div className="">
-                            <input
-                              onChange={uploadRecepit}
-                              type="file"
-                              placeholder="upload receipt for Comfirmation "
-                            />
-                            <button
-                              onClick={handleUploadImage}
-                              className="relative group cursor-pointer text-sky-50  overflow-hidden px-14 mt-2 py-2 rounded-md bg-black  flex justify-center items-center font-extrabold"
-                            >
-                              <div className="absolute top-3 right-20 group-hover:top-12 group-hover:-right-12 z-10 w-40 h-40 rounded-full group-hover:scale-150 group-hover:opacity-50 duration-500 bg-gray-700"></div>
-                              <div className="absolute top-3 right-20 group-hover:top-12 group-hover:-right-12 z-10 w-32 h-32 rounded-full group-hover:scale-150 group-hover:opacity-50 duration-500 bg-gray-700"></div>
-                              <div className="absolute top-3 right-20 group-hover:top-12 group-hover:-right-12 z-10 w-24 h-24 rounded-full group-hover:scale-150 group-hover:opacity-50 duration-500 bg-gray-700"></div>
-                              <div className="absolute top-3 right-20 group-hover:top-12 group-hover:-right-12 z-10 w-14 h-14 rounded-full group-hover:scale-150 group-hover:opacity-50 duration-500 bg-gray-700"></div>
-                              <p className="z-10 capitalize">Done</p>
-                            </button>
-                          </div>
-                        </div>
-                      </form>
-                    </div>
-                  )}
-
-                  {/*  BANK TRANSFER ENDS HERE  */}
                   {paymentMethod === "Debit Card" && (
                     <div className="bg-gray-100 p-4 rounded mb-4">
                       <h3 className="text-x1 font-semibold mb-4">
-                        Debit Detail Information
+                        Debit Card Details
                       </h3>
                       <div className="mb-4">
                         <label className="block text-gray-700 font-semibold mb-2">
-                          Card Number{" "}
+                          Card Number
                         </label>
                         <input
                           type="text"
-                          placeholder="Card number "
-                          className=" border p-2 w-full rounded"
+                          placeholder="Card number"
+                          className="border p-2 w-full rounded"
                         />
                       </div>
-
                       <div className="mb-4">
                         <label className="block text-gray-700 font-semibold mb-2">
-                          Card Holder Name{" "}
+                          Card Holder Name
                         </label>
-                        <input type="text" placeholder="Card number" />
-                      </div>
-
-                      <div>
-                        <div className="mb-4">
-                          <label
-                            htmlFor=""
-                            className="block text-gray-700 font-semibold mb-2"
-                          >
-                            Date Exp..
-                          </label>
-                          <input type="number" />
-                        </div>
-                        <div>
-                          <div className="mb-4">
-                            <label
-                              htmlFor=""
-                              className="block text-gray-700 font-semibold mb-2"
-                            >
-                              CVV
-                            </label>
-                            <input type="number" />
-                          </div>
-                        </div>
+                        <input type="text" placeholder="Card Holder Name" />
                       </div>
                     </div>
                   )}
@@ -307,11 +291,12 @@ const CheckOutPage = ({ setOrder }) => {
             </div>
           </div>
 
-          <div className="  bg-black text-white p-6 rounded-lg shadow-md border">
-            <h3 className="text-lg font-semibold mb-4 ">Order Summary</h3>
-            <div className="space-y-4 ">
-              {cart.product.map((product) => (
-                <div className="flex items-center">
+          {/* Order Summary */}
+          <div className="bg-black text-white p-6 rounded-lg shadow-xl border">
+            <h3 className="text-lg font-semibold mb-4">Order Summary</h3>
+            <div className="space-y-4">
+              {cart.product.map((product, index) => (
+                <div key={index} className="flex items-center">
                   <img
                     src={product.image}
                     className="w-16 h-16 object-contain rounded"
@@ -330,21 +315,16 @@ const CheckOutPage = ({ setOrder }) => {
               <div className="flex justify-between">
                 <span>Total Price:</span>
                 <span className="font-semibold">
-                  <span className="font-semibold">
-                    ${cart.totalPrice.toFixed(2)}
-                  </span>
+                  ₦{cart.totalPrice.toFixed(2)}
                 </span>
               </div>
 
               <button
-                onClick={() => handleOrder()}
-                className="relative group cursor-pointer text-sky-50 mx-auto  overflow-hidden h-12 w-64 rounded-md bg-black  flex justify-center items-center font-extrabold"
+                onClick={handleOrder}
+                disabled={Object.keys(errors).length > 0}
+                className="relative group cursor-pointer text-sky-50 mx-auto overflow-hidden h-12 w-64 rounded-md bg-indigo-600 my-4 flex justify-center items-center font-extrabold"
               >
-                <div className="absolute top-3 right-20 group-hover:top-12 group-hover:-right-12 z-10 w-40 h-40 rounded-full group-hover:scale-150 group-hover:opacity-50 duration-500 bg-gray-700"></div>
-                <div className="absolute top-3 right-20 group-hover:top-12 group-hover:-right-12 z-10 w-32 h-32 rounded-full group-hover:scale-150 group-hover:opacity-50 duration-500 bg-gray-700"></div>
-                <div className="absolute top-3 right-20 group-hover:top-12 group-hover:-right-12 z-10 w-24 h-24 rounded-full group-hover:scale-150 group-hover:opacity-50 duration-500 bg-gray-700"></div>
-                <div className="absolute top-3 right-20 group-hover:top-12 group-hover:-right-12 z-10 w-14 h-14 rounded-full group-hover:scale-150 group-hover:opacity-50 duration-500 bg-gray-700"></div>
-                <p className="z-10 capitalize">Place Order</p>
+                <p className="capitalize">Place Order</p>
               </button>
             </div>
           </div>
@@ -354,4 +334,4 @@ const CheckOutPage = ({ setOrder }) => {
   );
 };
 
-export default CheckOutPage;
+export default CheckoutPage;
