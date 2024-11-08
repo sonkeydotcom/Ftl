@@ -21,6 +21,8 @@ import TopSales from "./pages/TopSales/TopSales";
 import BestCollections from "./pages/BestCollections/BestCollections";
 import AllProduct from "./pages/AllProduct/AllProduct";
 import Whatsapp from "./componets/Whatsapp/Whatsapp";
+import CheckoutPage from "./pages/CheckOutPage";
+import { CheckOutPage1 } from "./pages/checkout/CheckOutPage1";
 
 function App() {
   const [order, setOrder] = useState(null);

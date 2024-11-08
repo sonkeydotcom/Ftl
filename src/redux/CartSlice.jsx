@@ -1,10 +1,20 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialState = {
-  product: [],
-  totalQuantity: 0,
-  totalPrice: 0,
+// Load initial state from localStorage if it exists, otherwise use default state
+const loadCartFromLocalStorage = () => {
+  const storedCart = localStorage.getItem("cart");
+  if (storedCart) {
+    return JSON.parse(storedCart);
+  }
+  return {
+    product: [],
+    totalQuantity: 0,
+    totalPrice: 0,
+  };
 };
+
+const initialState = loadCartFromLocalStorage();
+
 const cartSlice = createSlice({
   name: "cart",
   initialState,
@@ -27,6 +37,9 @@ const cartSlice = createSlice({
       }
       state.totalPrice += newItem.price;
       state.totalQuantity++;
+
+      // Update localStorage whenever the cart state changes
+      localStorage.setItem("cart", JSON.stringify(state));
     },
 
     removeFromCart(state, action) {
@@ -37,7 +50,11 @@ const cartSlice = createSlice({
         state.totalQuantity -= findItem.quantity;
         state.product = state.product.filter((item) => item.id !== id);
       }
+
+      // Update localStorage
+      localStorage.setItem("cart", JSON.stringify(state));
     },
+
     increaseQuantity(state, action) {
       const id = action.payload;
       const findItem = state.product.find((item) => item.id === id);
@@ -47,6 +64,9 @@ const cartSlice = createSlice({
         state.totalQuantity++;
         state.totalPrice += findItem.price;
       }
+
+      // Update localStorage
+      localStorage.setItem("cart", JSON.stringify(state));
     },
 
     decreaseQuantity(state, action) {
@@ -58,26 +78,24 @@ const cartSlice = createSlice({
         state.totalQuantity--;
         state.totalPrice -= findItem.price;
       }
-      // Additional handling to remove the item if the quantity reaches 0
+
+      // Handle the case where quantity reaches 0 and remove item
       if (findItem && findItem.quantity === 1) {
         state.totalPrice -= findItem.price;
         state.product = state.product.filter((item) => item.id !== id);
       }
+
+      // Update localStorage
+      localStorage.setItem("cart", JSON.stringify(state));
     },
-    decreaseQuantity(state, action) {
-      const id = action.payload;
-      const findItem = state.product.find((item) => item.id === id);
-      if (findItem.quantity > 1) {
-        findItem.quantity--;
-        findItem.totalPrice -= findItem.price;
-        state.totalQuantity--;
-        state.totalPrice -= findItem.price;
-      }
-    },
+
     clearCart(state) {
       state.product = [];
       state.totalQuantity = 0;
       state.totalPrice = 0;
+
+      // Clear localStorage when cart is cleared
+      localStorage.removeItem("cart");
     },
   },
 });

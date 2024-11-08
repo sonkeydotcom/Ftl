@@ -2,11 +2,18 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import LoadingFetch from "../componets/Loading/LoadingFetch";
+import { addToCart } from "../redux/CartSlice";
+import { addToWishList } from "../redux/wishListSlice";
+import { toast, ToastContainer } from "react-toastify";
+import { useDispatch } from "react-redux";
+import { IoAdd } from "react-icons/io5";
+import { CiHeart } from "react-icons/ci";
 
 const ProductDetails = () => {
   const { id } = useParams();
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -33,6 +40,20 @@ const ProductDetails = () => {
     );
   if (!product) return <div>Product not found</div>;
 
+  //// ADD TO CAFT FUNCTION
+  const handleAddToCart = (e, product) => {
+    e.stopPropagation();
+    e.preventDefault();
+    dispatch(addToCart(product));
+    toast("Added to cart");
+  };
+
+  /// WISHLIST CART FUNCTION
+  const handleAddToWishList = () => {
+    dispatch(addToWishList(product)); // Correctly dispatch the action here
+    toast("Added to wishlist");
+  };
+
   return (
     <div>
       <div className="py-8">
@@ -47,17 +68,20 @@ const ProductDetails = () => {
                 />
               </div>
 
-              <div className="flex -mx-2 mb-4">
-                <div className="w-1/2 px-2">
-                  <button className="w-full bg-gray-900 text-white py-2 px-4 rounded-full font-bold hover:bg-gray-800">
-                    Add to Cart
-                  </button>
-                </div>
-                <div className="w-1/2 px-2">
-                  <button className="w-full bg-gray-200 text-gray-800 py-2 px-4 rounded-full font-bold hover:bg-gray-300">
-                    Add to Wishlist
-                  </button>
-                </div>
+              <div className="flex items-center justify-between  space-x-2 mb-4">
+                <button
+                  onClick={(e) => handleAddToCart(e, product)}
+                  className="w-[150px] bg-black h-[50px] my-3 flex items-center justify-center rounded-xl cursor-pointer relative overflow-hidden transition-all duration-500 ease-in-out shadow-md hover:scale-105 hover:shadow-lg before:absolute before:top-0 before:-left-full before:w-full before:h-full before:bg-gradient-to-r before:from-[#009b49] before:to-[rgb(105,184,141)] before:transition-all before:duration-500 before:ease-in-out before:z-[-1] before:rounded-xl hover:before:left-0 text-[#fff]"
+                >
+                  <span>Add to Cart</span>
+                </button>
+
+                <button
+                  onClick={handleAddToWishList}
+                  className="  border-2  text-black hover:text-white py-2 px-6 rounded-full font-light hover:bg-gray-800"
+                >
+                  <CiHeart />
+                </button>
               </div>
             </div>
             <div className="md:flex-1 px-4">
@@ -123,6 +147,8 @@ const ProductDetails = () => {
           </div>
         </div>
       </div>
+
+      <ToastContainer />
     </div>
   );
 };

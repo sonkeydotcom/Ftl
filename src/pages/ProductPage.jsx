@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { toast, ToastContainer } from "react-toastify";
@@ -10,8 +10,6 @@ import { addToWishList } from "../redux/wishListSlice";
 
 const ProductPage = ({ product, images }) => {
   const dispatch = useDispatch();
-  const [isInWishlist, setIsInWishlist] = useState(false); // Track wishlist state
-
   const handleAddToCart = (e, product) => {
     e.stopPropagation();
     e.preventDefault();
@@ -20,11 +18,8 @@ const ProductPage = ({ product, images }) => {
   };
 
   const handleAddToWishList = () => {
-    if (isInWishlist) return; // If already in wishlist, do nothing
-
     dispatch(addToWishList(product)); // Correctly dispatch the action here
-    setIsInWishlist(true); // Mark as added to wishlist
-    toast.success("Added to wishlist");
+    toast("Added to wishlist ");
   };
 
   return (
@@ -57,21 +52,17 @@ const ProductPage = ({ product, images }) => {
           </div>
         </div>
       </Link>
-      <div className="mt-4 md:mt-0 flex justify-between">
+      <div className="  mt-4 md:mt-0 flex  justify-between">
         <button
-          title="Add to Cart"
           onClick={(e) => handleAddToCart(e, product)}
-          className="relative flex items-center px-8 py-1 justify-between cursor-pointer border-b-2 border-r-4 border-gray-0 rounded-lg bg-gray-0 shadow-lg overflow-hidden transition-transform duration-300 ease-in-out transform hover:scale-105 active:translate-x-1 active:translate-y-1 group"
+          className="relative flex items-center  px-8 py-1 justify-between cursor-pointer border-b-2 border-r-4 border-gray-0 rounded-lg bg-gray-0 shadow-lg overflow-hidden transition-transform duration-300 ease-in-out transform hover:scale-105 active:translate-x-1 active:translate-y-1 group"
         >
           <AiOutlinePlus />
         </button>
         <button
           onClick={handleAddToWishList}
-          className={`relative flex items-center px-4 py-1 justify-between cursor-pointer border-b-2 border-r-4 rounded-lg bg-gray-0 shadow-lg overflow-hidden transition-transform duration-300 ease-in-out transform hover:scale-105 active:translate-x-1 active:translate-y-1 group ${
-            isInWishlist ? "text-red-500 border-red-500" : "text-gray-500"
-          }`}
+          className="relative flex items-center px-4 py-1 justify-between cursor-pointer border-b-2 border-r-4 border-gray-0 rounded-lg bg-gray-0 shadow-lg overflow-hidden transition-transform duration-300 ease-in-out transform hover:scale-105 active:translate-x-1 active:translate-y-1 group"
           title="Add to Wishlist" // Tooltip text
-          disabled={isInWishlist} // Disable button if already in wishlist
         >
           <CiHeart />
         </button>

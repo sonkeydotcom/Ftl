@@ -14,8 +14,11 @@
 .rotating {
   animation: rotate 30s linear infinite;
 }
-
+/* 
 @import url("https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&family=Roboto+Serif:ital,opsz,wght@0,8..144,100..900;1,8..144,100..900&display=swap");
+ */
+
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Philosopher:ital,wght@0,400;0,700;1,400;1,700&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap");
 
 .menu-navbar {
   transform: translateX(-100%);
@@ -36,7 +39,7 @@
   border: 0;
 }
 body {
-  font-family: "Roboto Serif", serif;
+  font-family: "Noto Sans", sans-serif;
 }
 /* .button {
   --main-focus: #2d8cf0;

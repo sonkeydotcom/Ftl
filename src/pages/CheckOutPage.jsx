@@ -2,12 +2,17 @@ import React, { useState, useEffect } from "react";
 import { FaAngleDown, FaAngleUp } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import { useNavigate, useLocation } from "react-router-dom";
+import { TbTruckDelivery } from "react-icons/tb";
+import { FaPersonWalkingLuggage } from "react-icons/fa6";
 
 const CheckoutPage = () => {
   const location = useLocation(); // Use location hook to get passed state
   const [billingToggle, setBillingToggle] = useState(true);
   const [shippingToggle, setShippingToggle] = useState(false);
   const [paymentToggle, setPaymentToggle] = useState(false);
+
+  // Add a state for delivery method
+  const [deliveryMethod, setDeliveryMethod] = useState("delivery"); // default to 'delivery'
 
   // Set initial state based on passed data (if available)
   const [billingInfo, setBillingInfo] = useState({
@@ -20,6 +25,7 @@ const CheckoutPage = () => {
     address: location.state?.shippingInfo?.address || "",
     city: location.state?.shippingInfo?.city || "",
     zip: location.state?.shippingInfo?.zip || "",
+    state: location.state?.shippingInfo?.state || "", // New state field
   });
 
   const [paymentMethod, setPaymentMethod] = useState(
@@ -30,6 +36,9 @@ const CheckoutPage = () => {
   const navigate = useNavigate();
 
   const [errors, setErrors] = useState({});
+
+  // Delivery fee constant
+  const deliveryFee = 10000; // $10,000 delivery fee for delivery orders
 
   // Handle form submission
   const handleOrder = () => {
@@ -55,9 +64,13 @@ const CheckoutPage = () => {
     if (!billingInfo.name) validationErrors.name = "Name is required";
     if (!billingInfo.email) validationErrors.email = "Email is required";
     if (!billingInfo.phone) validationErrors.phone = "Phone is required";
-    if (!shippingInfo.address) validationErrors.address = "Address is required";
-    if (!shippingInfo.city) validationErrors.city = "City is required";
-    if (!shippingInfo.zip) validationErrors.zip = "Zip code is required";
+    if (deliveryMethod === "delivery") {
+      if (!shippingInfo.address)
+        validationErrors.address = "Address is required";
+      if (!shippingInfo.city) validationErrors.city = "City is required";
+      if (!shippingInfo.zip) validationErrors.zip = "Zip code is required";
+      if (!shippingInfo.state) validationErrors.state = "State is required"; // Validate state
+    }
     return validationErrors;
   };
 
@@ -87,12 +100,18 @@ const CheckoutPage = () => {
     }
   };
 
+  // Calculate total order price including delivery fee
+  const calculateTotalPrice = () => {
+    const cartTotal = cart.totalPrice || 0;
+    return deliveryMethod === "delivery" ? cartTotal + deliveryFee : cartTotal;
+  };
+
   return (
-    <div className="container mx-auto py-8 min-h-96 px-4 md:px-16 lg:px-24">
+    <div className="container mx-auto py-8 min-h-96 px-4 md:px-16 lg:px-2">
       <div className="">
-        <h3 className="text-2xl font-semibold mb-4">CHECKOUT</h3>
+        <h3 className="text-xl font-semibold mb-4">CHECKOUT</h3>
         <div className="flex flex-col md:flex-row justify-between space-x-0 mt-8">
-          <div className="md:w-2/3">
+          <div className="md:w-2/3 ">
             {/* Billing Info Section */}
             <div className="border p-2 mb-6">
               <div className="flex items-center justify-between">
@@ -161,73 +180,147 @@ const CheckoutPage = () => {
               </div>
             </div>
 
-            {/* Shipping Info Section */}
+            {/* Delivery Method Section */}
             <div className="border p-2 mb-6">
               <div className="flex items-center justify-between">
-                <h3 className="text-lg font-semibold mb-2">
-                  Shipping Information
-                </h3>
-                <button onClick={() => setShippingToggle(!shippingToggle)}>
-                  {shippingToggle ? <FaAngleDown /> : <FaAngleUp />}
-                </button>
+                <h3 className="text-lg font-semibold mb-2">Delivery Method</h3>
               </div>
 
-              <div className={`space-y-4 ${shippingToggle ? "" : "hidden"}`}>
-                <div>
-                  <label htmlFor="address" className="block text-gray-700">
-                    Address
-                  </label>
+              <div className="space-y-4">
+                <div className="flex items-center">
                   <input
-                    type="text"
-                    id="address"
-                    name="address"
-                    className="w-full px-3 py-2 border"
-                    placeholder="Enter Address"
-                    value={shippingInfo.address}
-                    onChange={handleShippingChange}
+                    type="radio"
+                    className="mr-2"
+                    checked={deliveryMethod === "delivery"}
+                    onChange={() => setDeliveryMethod("delivery")}
                   />
-                  {errors.address && (
-                    <p className="text-red-500 text-sm">{errors.address}</p>
-                  )}
+                  <div className="flex items-center space-x-2">
+                    <span>Delivery</span>
+                    <span>
+                      <TbTruckDelivery />
+                    </span>
+                  </div>
                 </div>
 
-                <div>
-                  <label htmlFor="city" className="block text-gray-700">
-                    City
-                  </label>
+                <div className="flex items-center">
                   <input
-                    type="text"
-                    id="city"
-                    name="city"
-                    className="w-full px-3 py-2 border"
-                    placeholder="Enter City Name"
-                    value={shippingInfo.city}
-                    onChange={handleShippingChange}
+                    type="radio"
+                    className="mr-2"
+                    checked={deliveryMethod === "pickup"}
+                    onChange={() => setDeliveryMethod("pickup")}
                   />
-                  {errors.city && (
-                    <p className="text-red-500 text-sm">{errors.city}</p>
-                  )}
-                </div>
-
-                <div>
-                  <label htmlFor="zip" className="block text-gray-700">
-                    Zip Code
-                  </label>
-                  <input
-                    type="text"
-                    id="zip"
-                    name="zip"
-                    className="w-full px-3 py-2 border"
-                    placeholder="Enter Zip Code"
-                    value={shippingInfo.zip}
-                    onChange={handleShippingChange}
-                  />
-                  {errors.zip && (
-                    <p className="text-red-500 text-sm">{errors.zip}</p>
-                  )}
+                  <div className="flex items-center space-x-2">
+                    {" "}
+                    <span>Pick Up in Store</span>
+                    <span>
+                      <FaPersonWalkingLuggage />
+                    </span>
+                  </div>
                 </div>
               </div>
             </div>
+
+            {/* Shipping Info Section (Conditional Rendering) */}
+            {deliveryMethod === "delivery" && (
+              <div className="border p-2 mb-6">
+                <div className="flex items-center justify-between">
+                  <h3 className="text-lg font-semibold mb-2">
+                    Shipping Information
+                  </h3>
+                </div>
+
+                <div className={`space-y-4`}>
+                  <div>
+                    <label htmlFor="address" className="block text-gray-700">
+                      Address
+                    </label>
+                    <input
+                      type="text"
+                      id="address"
+                      name="address"
+                      className="w-full px-3 py-2 border"
+                      placeholder="Enter Address"
+                      value={shippingInfo.address}
+                      onChange={handleShippingChange}
+                    />
+                    {errors.address && (
+                      <p className="text-red-500 text-sm">{errors.address}</p>
+                    )}
+                  </div>
+
+                  <div>
+                    <label htmlFor="city" className="block text-gray-700">
+                      City
+                    </label>
+                    <input
+                      type="text"
+                      id="city"
+                      name="city"
+                      className="w-full px-3 py-2 border"
+                      placeholder="Enter City Name"
+                      value={shippingInfo.city}
+                      onChange={handleShippingChange}
+                    />
+                    {errors.city && (
+                      <p className="text-red-500 text-sm">{errors.city}</p>
+                    )}
+                  </div>
+
+                  <div>
+                    <label htmlFor="zip" className="block text-gray-700">
+                      Zip Code
+                    </label>
+                    <input
+                      type="text"
+                      id="zip"
+                      name="zip"
+                      className="w-full px-3 py-2 border"
+                      placeholder="Enter Zip Code"
+                      value={shippingInfo.zip}
+                      onChange={handleShippingChange}
+                    />
+                    {errors.zip && (
+                      <p className="text-red-500 text-sm">{errors.zip}</p>
+                    )}
+                  </div>
+
+                  <div>
+                    <label htmlFor="state" className="block text-gray-700">
+                      State
+                    </label>
+                    <input
+                      type="text"
+                      id="state"
+                      name="state"
+                      className="w-full px-3 py-2 border"
+                      placeholder="Enter State"
+                      value={shippingInfo.state}
+                      onChange={handleShippingChange}
+                    />
+                    {errors.state && (
+                      <p className="text-red-500 text-sm">{errors.state}</p>
+                    )}
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Pickup Store Information (When Pickup is selected) */}
+            {deliveryMethod === "pickup" && (
+              <div className="border p-2 mb-6">
+                <div className="bg-gray-100 p-4 rounded mb-4">
+                  <h3 className="text-xl font-semibold mb-4">
+                    Pick-Up Location:
+                  </h3>
+                  <p className="text-sm underline">
+                    Ago Best Time, Isolo, Lagos State
+                  </p>
+                  <p className="text-xs text-red-500 mt-2">
+                    We only have one store here in Nigeria.
+                  </p>
+                </div>
+              </div>
+            )}
 
             {/* Payment Info Section */}
             <div className="border p-2 mb-6">
@@ -239,6 +332,7 @@ const CheckoutPage = () => {
               </div>
 
               <div className={`space-y-4 ${paymentToggle ? "" : "hidden"}`}>
+                {/* Main Payment Options */}
                 <div>
                   <div className="flex items-center p-1">
                     <input
@@ -248,7 +342,6 @@ const CheckoutPage = () => {
                       onChange={() => setPaymentMethod("Cash on Delivery")}
                     />
                     <div>
-                      {" "}
                       <span>Cash on Delivery</span> <span>(Lagos Only!)</span>
                     </div>
                   </div>
@@ -260,72 +353,155 @@ const CheckoutPage = () => {
                       checked={paymentMethod === "Debit Card"}
                       onChange={() => setPaymentMethod("Debit Card")}
                     />
-                    <span>Card</span>
+                    <span>Debit or Credit Card Payment</span>
                   </div>
 
-                  {paymentMethod === "Debit Card" && (
-                    <div className="bg-gray-100 p-4 rounded mb-4">
-                      <h3 className="text-x1 font-semibold mb-4">
-                        Debit Card Details
-                      </h3>
-                      <div className="mb-4">
-                        <label className="block text-gray-700 font-semibold mb-2">
-                          Card Number
-                        </label>
-                        <input
-                          type="text"
-                          placeholder="Card number"
-                          className="border p-2 w-full rounded"
-                        />
-                      </div>
-                      <div className="mb-4">
-                        <label className="block text-gray-700 font-semibold mb-2">
-                          Card Holder Name
-                        </label>
-                        <input type="text" placeholder="Card Holder Name" />
-                      </div>
-                    </div>
-                  )}
+                  <div className="flex items-center p-1">
+                    <input
+                      type="radio"
+                      className="mr-2"
+                      checked={paymentMethod === "Bank Transfer"}
+                      onChange={() => setPaymentMethod("Bank Transfer")}
+                    />
+                    <span>Bank Transfer</span>
+                  </div>
                 </div>
+
+                {/* Conditional Rendering for Bank Transfer */}
+                {paymentMethod === "Bank Transfer" && (
+                  <div className="bg-gray-100 p-4 rounded mb-4">
+                    <h3 className="text-xl font-semibold mb-4">
+                      Bank Transfer Details
+                    </h3>
+                    <p className="text-sm mb-4">
+                      Please note that our conversion rate is 1,700 NGN to $1,
+                      and we will confirm all payments before processing your
+                      order.
+                    </p>
+                    <p className="font-semibold mb-4">
+                      Make a bank transfer in Nigerian Naira (NGN) of the
+                      required amount to the following account:
+                    </p>
+
+                    <div className="space-y-2 mb-4">
+                      <p className="font-semibold">Account Name:</p>
+                      <p>FTL CLOTHING LUXURY </p>
+
+                      <p className="font-semibold">Account Number:</p>
+                      <p>8169084534</p>
+
+                      <p className="font-semibold">Bank Name:</p>
+                      <p>OPAY</p>
+                    </div>
+
+                    <p className="text-sm mb-4">
+                      Kindly contact <strong>+234(0) 816 908 4535</strong> with
+                      your detailed proof of payment confirmation. Please note
+                      that we confirm all payments before processing orders.
+                    </p>
+
+                    <p className="text-sm">Thank you for your cooperation.</p>
+                  </div>
+                )}
+
+                {/* Conditional Rendering for Debit or Credit Card Payment */}
+                {paymentMethod === "Debit Card" && (
+                  <div className="bg-gray-100 p-4 rounded mb-4">
+                    <h3 className="text-xl font-semibold mb-4">
+                      Debit or Credit Card Payment
+                    </h3>
+                    <div className="mb-4">
+                      <label className="block text-gray-700 font-semibold mb-2">
+                        Card Number
+                      </label>
+                      <input
+                        type="text"
+                        placeholder="Card number"
+                        className="border p-2 w-full rounded"
+                      />
+                    </div>
+                    <div className="mb-4">
+                      <label className="block text-gray-700 font-semibold mb-2">
+                        Card Holder Name
+                      </label>
+                      <input
+                        type="text"
+                        placeholder="Card Holder Name"
+                        className="border p-2 w-full rounded"
+                      />
+                    </div>
+                    <div className="mb-4">
+                      <label className="block text-gray-700 font-semibold mb-2">
+                        Expiration Date
+                      </label>
+                      <input
+                        type="text"
+                        placeholder="MM/YY"
+                        className="border p-2 w-full rounded"
+                      />
+                    </div>
+                    <div className="mb-4">
+                      <label className="block text-gray-700 font-semibold mb-2">
+                        CVV
+                      </label>
+                      <input
+                        type="text"
+                        placeholder="CVV"
+                        className="border p-2 w-full rounded"
+                      />
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
           </div>
 
           {/* Order Summary */}
-          <div className="bg-black text-white p-6 rounded-lg shadow-xl border">
-            <h3 className="text-lg font-semibold mb-4">Order Summary</h3>
-            <div className="space-y-4">
-              {cart.product.map((product, index) => (
-                <div key={index} className="flex items-center">
-                  <img
-                    src={product.image}
-                    className="w-16 h-16 object-contain rounded"
-                  />
-                  <div className="ml-4">
-                    <h3 className="text-md font-semibold">{product.name}</h3>
-                    <p className="text-gray-600">
-                      {product.price} X {product.quantity}
-                    </p>
+          <div className="bg-slate-800">
+            <div className="text-white p-6 rounded-lg shadow ">
+              <h3 className="text-lg font-semibold mb-4">Order Summary</h3>
+              <div className="space-y-4">
+                {cart.product.map((product, index) => (
+                  <div key={index} className="flex items-center">
+                    <img
+                      src={product.image}
+                      className="w-16 h-16 object-contain rounded"
+                    />
+                    <div className="ml-4">
+                      <h3 className="text-md font-semibold">{product.name}</h3>
+                      <p className="text-gray-600">
+                        {product.price} X {product.quantity}
+                      </p>
+                    </div>
                   </div>
-                </div>
-              ))}
-            </div>
-
-            <div className="mt-4 border-t pt-4">
-              <div className="flex justify-between">
-                <span>Total Price:</span>
-                <span className="font-semibold">
-                  ₦{cart.totalPrice.toFixed(2)}
-                </span>
+                ))}
               </div>
 
-              <button
-                onClick={handleOrder}
-                disabled={Object.keys(errors).length > 0}
-                className="relative group cursor-pointer text-sky-50 mx-auto overflow-hidden h-12 w-64 rounded-md bg-indigo-600 my-4 flex justify-center items-center font-extrabold"
-              >
-                <p className="capitalize">Place Order</p>
-              </button>
+              <div className="mt-4 border-t pt-4">
+                {/* Only display Delivery Fee if deliveryMethod is "delivery" */}
+                {deliveryMethod === "delivery" && (
+                  <div className="flex justify-between">
+                    <span>Delivery Fee:</span>
+                    <span className="font-semibold">₦{deliveryFee}</span>
+                  </div>
+                )}
+
+                {/* Order Total */}
+                <div className="flex justify-between">
+                  <span>Total Price:</span>
+                  <span className="font-semibold">
+                    ₦{calculateTotalPrice().toFixed(2)}
+                  </span>
+                </div>
+
+                <button
+                  onClick={handleOrder}
+                  disabled={Object.keys(errors).length > 0}
+                  className="relative group cursor-pointer text-sky-50 mx-auto overflow-hidden h-12 w-64 rounded-md bg-indigo-600 my-4 flex justify-center items-center font-extrabold"
+                >
+                  <p className="capitalize">Place Order</p>
+                </button>
+              </div>
             </div>
           </div>
         </div>

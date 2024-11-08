@@ -14,8 +14,8 @@ const wishListSlice = createSlice({
     addToWishList(state, action) {
       const newItem = action.payload;
       // Check if the item is already in the wishlist
-      const itemIndex = state.product.find((item) => item.id === newItem.id);
-      if (!itemIndex) {
+      const existingItem = state.product.find((item) => item.id === newItem.id);
+      if (!existingItem) {
         // Only add the item if it's not already in the wishlist
         state.product.push(newItem);
       }
