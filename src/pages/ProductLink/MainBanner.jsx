@@ -12,7 +12,7 @@ const MainBanner = () => {
         {/* Left Section: Text and Buttons */}
         <div className="flex flex-col md:px-10 p-3">
           <motion.h1
-            initial={{ y: "10vh" }}
+            initial={{ y: "5vh" }}
             animate={{ y: 0 }}
             transition={{ duration: 1 }}
             className="text-[35px] font-bold"
@@ -21,7 +21,7 @@ const MainBanner = () => {
             <span className="text-indigo-600">FTL</span>
           </motion.h1>
           <motion.p
-            initial={{ y: "12vh" }}
+            initial={{ y: "8vh" }}
             animate={{ y: 0 }}
             transition={{ duration: 2 }}
             className="text-gray-500 text-[22px] sd:w-[300px] mb-4 md:w-[500px]"
@@ -31,7 +31,7 @@ const MainBanner = () => {
             covered.
           </motion.p>
           <motion.div
-            initial={{ y: "16vh" }}
+            initial={{ y: "5vh" }}
             animate={{ y: 0 }}
             transition={{ duration: 2.5 }}
             className="flex space-x-2 md:space-x-4 "

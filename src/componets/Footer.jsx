@@ -4,98 +4,468 @@ import { FaXTwitter } from "react-icons/fa6";
 import { FaPinterestP } from "react-icons/fa";
 import { CiFacebook } from "react-icons/ci";
 import { FaWhatsapp } from "react-icons/fa";
+import { motion } from "framer-motion";
+
 const Footer = () => {
   return (
     <div className="bg-black pt-5 pb-2 px-3 md:px-4">
       <div className="bg-white flex flex-col">
         <div className="bg-white flex flex-col md:flex-row px-2 md:px-[30px] justify-between mb-5 border-black border-b-[1px] mb:border-b-[0px]">
           {/* Contact Section */}
-          <div className="p-4 flex flex-col md:w-[25%] w-full md:border-r-[1px] border-black md:border-b-0 border-b-2">
-            <h4 className="font-bold mb-2">Contact</h4>
-            <p className="mb-2 text-[14px] text-gray-500 underline">
+          <motion.div
+            className="p-4 flex flex-col md:w-[25%] w-full md:border-r-[1px] border-black md:border-b-0 border-b-2"
+            initial={{ opacity: 0, x: 100 }}
+            whileInView={{
+              opacity: 1,
+              x: 0,
+              transition: { type: "spring", bounce: 0.5, duration: 2 },
+            }}
+            viewport={{ once: true }}
+          >
+            <motion.h4
+              className="font-bold mb-2"
+              initial={{ opacity: 0, x: 100 }}
+              whileInView={{
+                opacity: 1,
+                x: 0,
+                transition: { type: "spring", bounce: 0.5, duration: 2 },
+              }}
+              viewport={{ once: true }}
+            >
+              Contact
+            </motion.h4>
+            <motion.p
+              className="mb-2 text-[14px] text-gray-500 underline"
+              initial={{ opacity: 0, x: 100 }}
+              whileInView={{
+                opacity: 1,
+                x: 0,
+                transition: {
+                  type: "spring",
+                  bounce: 0.5,
+                  duration: 2,
+                  delay: 0.2,
+                },
+              }}
+              viewport={{ once: true }}
+            >
               ago palace tinubu lagos startime estate isolo
-            </p>
-            <p className="mb-2 text-[14px] text-gray-500 hover:underline">
+            </motion.p>
+            <motion.p
+              className="mb-2 text-[14px] text-gray-500 hover:underline"
+              initial={{ opacity: 0, x: 100 }}
+              whileInView={{
+                opacity: 1,
+                x: 0,
+                transition: {
+                  type: "spring",
+                  bounce: 0.5,
+                  duration: 2,
+                  delay: 0.4,
+                },
+              }}
+              viewport={{ once: true }}
+            >
               Operating hours: Monday – Saturday (10am -10pm)
-            </p>
-            <p className="mb-2 text-[14px] text-gray-500 hover:underline">
+            </motion.p>
+            <motion.p
+              className="mb-2 text-[14px] text-gray-500 hover:underline"
+              initial={{ opacity: 0, x: 100 }}
+              whileInView={{
+                opacity: 1,
+                x: 0,
+                transition: {
+                  type: "spring",
+                  bounce: 0.5,
+                  duration: 2,
+                  delay: 0.6,
+                },
+              }}
+              viewport={{ once: true }}
+            >
               Sunday (12pm-10pm)
-            </p>
-            <p className="mb-2 text-[14px] text-gray-500 hover:underline">
+            </motion.p>
+            <motion.p
+              className="mb-2 text-[14px] text-gray-500 hover:underline"
+              initial={{ opacity: 0, x: 100 }}
+              whileInView={{
+                opacity: 1,
+                x: 0,
+                transition: {
+                  type: "spring",
+                  bounce: 0.5,
+                  duration: 2,
+                  delay: 0.8,
+                },
+              }}
+              viewport={{ once: true }}
+            >
               08169084535
-            </p>
-          </div>
+            </motion.p>
+          </motion.div>
 
           {/* Shop Here Section */}
-          <div className="p-4 flex flex-col md:w-[25%] w-full md:border-r-[1px] border-black md:border-b-0 border-b-2">
-            <h4 className="font-bold mb-2">Shop Here</h4>
-            <ul>
-              <li className="mb-2 text-[14px] text-gray-500 hover:underline">
+          <motion.div
+            className="p-4 flex flex-col md:w-[25%] w-full md:border-r-[1px] border-black md:border-b-0 border-b-2"
+            initial={{ opacity: 0, x: 100 }}
+            whileInView={{
+              opacity: 1,
+              x: 0,
+              transition: { type: "spring", bounce: 0.5, duration: 2 },
+            }}
+            viewport={{ once: true }}
+          >
+            <motion.h4
+              className="font-bold mb-2"
+              initial={{ opacity: 0, x: 100 }}
+              whileInView={{
+                opacity: 1,
+                x: 0,
+                transition: { type: "spring", bounce: 0.5, duration: 2 },
+              }}
+              viewport={{ once: true }}
+            >
+              Shop Here
+            </motion.h4>
+            <motion.ul
+              initial={{ opacity: 0, x: 100 }}
+              whileInView={{
+                opacity: 1,
+                x: 0,
+                transition: {
+                  type: "spring",
+                  bounce: 0.5,
+                  duration: 2,
+                  delay: 0.2,
+                },
+              }}
+              viewport={{ once: true }}
+            >
+              <motion.li
+                className="mb-2 text-[14px] text-gray-500 hover:underline"
+                initial={{ opacity: 0, x: 100 }}
+                whileInView={{
+                  opacity: 1,
+                  x: 0,
+                  transition: {
+                    type: "spring",
+                    bounce: 0.5,
+                    duration: 2,
+                    delay: 0.4,
+                  },
+                }}
+                viewport={{ once: true }}
+              >
                 All Items
-              </li>
-              <li className="mb-2 text-[14px] text-gray-500 hover:underline">
+              </motion.li>
+              <motion.li
+                className="mb-2 text-[14px] text-gray-500 hover:underline"
+                initial={{ opacity: 0, x: 100 }}
+                whileInView={{
+                  opacity: 1,
+                  x: 0,
+                  transition: {
+                    type: "spring",
+                    bounce: 0.5,
+                    duration: 2,
+                    delay: 0.6,
+                  },
+                }}
+                viewport={{ once: true }}
+              >
                 Men
-              </li>
-              <li className="mb-2 text-[14px] text-gray-500 hover:underline">
+              </motion.li>
+              <motion.li
+                className="mb-2 text-[14px] text-gray-500 hover:underline"
+                initial={{ opacity: 0, x: 100 }}
+                whileInView={{
+                  opacity: 1,
+                  x: 0,
+                  transition: {
+                    type: "spring",
+                    bounce: 0.5,
+                    duration: 2,
+                    delay: 0.8,
+                  },
+                }}
+                viewport={{ once: true }}
+              >
                 Female
-              </li>
-              <li className="mb-2 text-[14px] text-gray-500 hover:underline">
+              </motion.li>
+              <motion.li
+                className="mb-2 text-[14px] text-gray-500 hover:underline"
+                initial={{ opacity: 0, x: 100 }}
+                whileInView={{
+                  opacity: 1,
+                  x: 0,
+                  transition: {
+                    type: "spring",
+                    bounce: 0.5,
+                    duration: 2,
+                    delay: 1,
+                  },
+                }}
+                viewport={{ once: true }}
+              >
                 Collections
-              </li>
-              <li className="mb-2 text-[14px] text-gray-500 hover:underline">
+              </motion.li>
+              <motion.li
+                className="mb-2 text-[14px] text-gray-500 hover:underline"
+                initial={{ opacity: 0, x: 100 }}
+                whileInView={{
+                  opacity: 1,
+                  x: 0,
+                  transition: {
+                    type: "spring",
+                    bounce: 0.5,
+                    duration: 2,
+                    delay: 1.2,
+                  },
+                }}
+                viewport={{ once: true }}
+              >
                 Accessories
-              </li>
-            </ul>
-          </div>
+              </motion.li>
+            </motion.ul>
+          </motion.div>
 
           {/* Quick Links Section */}
-          <div className="p-4 flex flex-col md:w-[25%] w-full md:border-r-[1px] border-black md:border-b-0 border-b-2">
-            <h4 className="font-bold mb-2">Quick Links</h4>
-            <ul>
-              <li className="mb-2 text-[14px] text-gray-500 hover:underline">
+          <motion.div
+            className="p-4 flex flex-col md:w-[25%] w-full md:border-r-[1px] border-black md:border-b-0 border-b-2"
+            initial={{ opacity: 0, x: 100 }}
+            whileInView={{
+              opacity: 1,
+              x: 0,
+              transition: { type: "spring", bounce: 0.5, duration: 2 },
+            }}
+            viewport={{ once: true }}
+          >
+            <motion.h4
+              className="font-bold mb-2"
+              initial={{ opacity: 0, x: 100 }}
+              whileInView={{
+                opacity: 1,
+                x: 0,
+                transition: { type: "spring", bounce: 0.5, duration: 2 },
+              }}
+              viewport={{ once: true }}
+            >
+              Quick Links
+            </motion.h4>
+            <motion.ul
+              initial={{ opacity: 0, x: 100 }}
+              whileInView={{
+                opacity: 1,
+                x: 0,
+                transition: {
+                  type: "spring",
+                  bounce: 0.5,
+                  duration: 2,
+                  delay: 0.2,
+                },
+              }}
+              viewport={{ once: true }}
+            >
+              <motion.li
+                className="mb-2 text-[14px] text-gray-500 hover:underline"
+                initial={{ opacity: 0, x: 100 }}
+                whileInView={{
+                  opacity: 1,
+                  x: 0,
+                  transition: {
+                    type: "spring",
+                    bounce: 0.5,
+                    duration: 2,
+                    delay: 0.4,
+                  },
+                }}
+                viewport={{ once: true }}
+              >
                 All Items
-              </li>
-              <li className="mb-2 text-[14px] text-gray-500 hover:underline">
+              </motion.li>
+              <motion.li
+                className="mb-2 text-[14px] text-gray-500 hover:underline"
+                initial={{ opacity: 0, x: 100 }}
+                whileInView={{
+                  opacity: 1,
+                  x: 0,
+                  transition: {
+                    type: "spring",
+                    bounce: 0.5,
+                    duration: 2,
+                    delay: 0.6,
+                  },
+                }}
+                viewport={{ once: true }}
+              >
                 Men
-              </li>
-              <li className="mb-2 text-[14px] text-gray-500 hover:underline">
+              </motion.li>
+              <motion.li
+                className="mb-2 text-[14px] text-gray-500 hover:underline"
+                initial={{ opacity: 0, x: 100 }}
+                whileInView={{
+                  opacity: 1,
+                  x: 0,
+                  transition: {
+                    type: "spring",
+                    bounce: 0.5,
+                    duration: 2,
+                    delay: 0.8,
+                  },
+                }}
+                viewport={{ once: true }}
+              >
                 Female
-              </li>
-              <li className="mb-2 text-[14px] text-gray-500 hover:underline">
+              </motion.li>
+              <motion.li
+                className="mb-2 text-[14px] text-gray-500 hover:underline"
+                initial={{ opacity: 0, x: 100 }}
+                whileInView={{
+                  opacity: 1,
+                  x: 0,
+                  transition: {
+                    type: "spring",
+                    bounce: 0.5,
+                    duration: 2,
+                    delay: 1,
+                  },
+                }}
+                viewport={{ once: true }}
+              >
                 Collections
-              </li>
-              <li className="mb-2 text-[14px] text-gray-500 hover:underline">
+              </motion.li>
+              <motion.li
+                className="mb-2 text-[14px] text-gray-500 hover:underline"
+                initial={{ opacity: 0, x: 100 }}
+                whileInView={{
+                  opacity: 1,
+                  x: 0,
+                  transition: {
+                    type: "spring",
+                    bounce: 0.5,
+                    duration: 2,
+                    delay: 1.2,
+                  },
+                }}
+                viewport={{ once: true }}
+              >
                 Accessories
-              </li>
-            </ul>
-          </div>
+              </motion.li>
+            </motion.ul>
+          </motion.div>
 
           {/* Discount/Newsletter Section */}
-          <div className="p-4 flex flex-col md:w-[25%] w-full">
-            <p className="font-bold mb-4">Get Discount off your Next Order</p>
-            <form className="flex-col flex">
-              <input
+          <motion.div
+            className="p-4 flex flex-col md:w-[25%] w-full"
+            initial={{ opacity: 0, x: 100 }}
+            whileInView={{
+              opacity: 1,
+              x: 0,
+              transition: { type: "spring", bounce: 0.5, duration: 2 },
+            }}
+            viewport={{ once: true }}
+          >
+            <motion.p
+              className="font-bold mb-4"
+              initial={{ opacity: 0, x: 100 }}
+              whileInView={{
+                opacity: 1,
+                x: 0,
+                transition: { type: "spring", bounce: 0.5, duration: 2 },
+              }}
+              viewport={{ once: true }}
+            >
+              Get Discount off your Next Order
+            </motion.p>
+            <motion.form
+              className="flex-col flex"
+              initial={{ opacity: 0, x: 100 }}
+              whileInView={{
+                opacity: 1,
+                x: 0,
+                transition: {
+                  type: "spring",
+                  bounce: 0.5,
+                  duration: 2,
+                  delay: 0.2,
+                },
+              }}
+              viewport={{ once: true }}
+            >
+              <motion.input
                 type="text"
                 placeholder="Name"
                 className="border-b-[1px] border-black py-2 mb-4 focus:outline-none focus:ring-0"
+                initial={{ opacity: 0, x: 100 }}
+                whileInView={{
+                  opacity: 1,
+                  x: 0,
+                  transition: {
+                    type: "spring",
+                    bounce: 0.5,
+                    duration: 2,
+                    delay: 0.4,
+                  },
+                }}
+                viewport={{ once: true }}
               />
-              <input
+              <motion.input
                 type="email"
                 placeholder="Email"
                 className="border-b-[1px] border-black py-2 mb-4 focus:outline-none focus:ring-0"
+                initial={{ opacity: 0, x: 100 }}
+                whileInView={{
+                  opacity: 1,
+                  x: 0,
+                  transition: {
+                    type: "spring",
+                    bounce: 0.5,
+                    duration: 2,
+                    delay: 0.6,
+                  },
+                }}
+                viewport={{ once: true }}
               />
-              <button className="bg-black text-white py-4 cursor-pointer my-4">
+              <motion.button
+                className="bg-black text-white py-4 cursor-pointer my-4"
+                initial={{ opacity: 0, x: 100 }}
+                whileInView={{
+                  opacity: 1,
+                  x: 0,
+                  transition: {
+                    type: "spring",
+                    bounce: 0.5,
+                    duration: 2,
+                    delay: 0.8,
+                  },
+                }}
+                viewport={{ once: true }}
+              >
                 Subscribe To Our Newsletter
-              </button>
-            </form>
-          </div>
+              </motion.button>
+            </motion.form>
+          </motion.div>
         </div>
 
         <div className="flex justify-between px-4">
           <div>
-            <p className="text-[14px] text-gray-500 hover:underline">
+            <motion.p
+              className="text-[14px] text-gray-500 hover:underline"
+              initial={{ opacity: 0, x: 100 }}
+              whileInView={{
+                opacity: 1,
+                x: 0,
+                transition: {
+                  type: "spring",
+                  bounce: 0.5,
+                  duration: 2,
+                  delay: 1,
+                },
+              }}
+              viewport={{ once: true }}
+            >
               © 2024 FTL All Rights Reserved
-            </p>
+            </motion.p>
           </div>
           <div>logogogo</div>
         </div>

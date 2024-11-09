@@ -36,9 +36,12 @@ const HomePage = () => {
       </div>
 
       <div className="">
-        <h1 className="text-3xl font-bold text-gray-500 text-center mt-10">
-          Top Sales
-        </h1>
+        <div className="flex justify-center items-center mt-4">
+          <h3 className="text-center font-bold text-[22px] uppercase text-darkgray  inline-block pt-2 pb-2">
+            Featured
+          </h3>
+        </div>
+
         <div className="grid grid-cols-2 md:grid-cols-6">
           {product.product.map((item) => (
             <ProductPage key={item.id} product={item} images={item.image} />
