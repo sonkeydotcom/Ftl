@@ -8,6 +8,8 @@ import { useEffect } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import MainBanner from "./ProductLink/MainBanner";
+import HomeBanner2 from "./homeBanner2/HomeBanner2";
 const HomePage = () => {
   const dispatch = useDispatch();
   const product = useSelector((state) => state.product);
@@ -27,8 +29,12 @@ const HomePage = () => {
   }, [dispatch]);
 
   return (
-    <div className="">
-      <Banner />
+    <div>
+      <div className="bg-indigo-50 flex flex-col">
+        <MainBanner />
+        <HomeBanner2 />
+      </div>
+
       <div className="">
         <h1 className="text-3xl font-bold text-gray-500 text-center mt-10">
           Top Sales

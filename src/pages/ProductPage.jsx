@@ -7,6 +7,7 @@ import { addToCart } from "../redux/CartSlice";
 import { CiHeart } from "react-icons/ci";
 import { AiOutlinePlus } from "react-icons/ai";
 import { addToWishList } from "../redux/wishListSlice";
+import { motion } from "framer-motion";
 
 const ProductPage = ({ product, images }) => {
   const dispatch = useDispatch();
@@ -23,7 +24,20 @@ const ProductPage = ({ product, images }) => {
   };
 
   return (
-    <div className="md:gap-6 pl-3 py-10 pr-3 md:flex w-full flex-col justify-between md:items-start">
+    <motion.div
+      className="md:gap-6 pl-3 py-10 pr-3 md:flex w-full flex-col justify-between md:items-start"
+      initial={{ opacity: 0, x: -10 }} // Initial state: off-screen (to the left)
+      whileInView={{
+        opacity: 1, // Make it fully visible
+        x: 0, // Move to the original position
+      }}
+      transition={{
+        duration: 1, // Animation duration
+        // Delay before starting animation
+        ease: "easeInOut", // Easing function
+      }}
+      viewport={{ once: true }} // Make the animation trigger only once when in view
+    >
       <Link to={`/products/${product.id}`} className="w-full">
         <div className="mx-2 rounded my-4 relative transform transition-transform duration-300">
           {/* Product Image */}
@@ -52,10 +66,10 @@ const ProductPage = ({ product, images }) => {
           </div>
         </div>
       </Link>
-      <div className="  mt-4 md:mt-0 flex  justify-between">
+      <div className="mt-4 md:mt-0 flex justify-between">
         <button
           onClick={(e) => handleAddToCart(e, product)}
-          className="relative flex items-center  px-8 py-1 justify-between cursor-pointer border-b-2 border-r-4 border-gray-0 rounded-lg bg-gray-0 shadow-lg overflow-hidden transition-transform duration-300 ease-in-out transform hover:scale-105 active:translate-x-1 active:translate-y-1 group"
+          className="relative flex items-center px-8 py-1 justify-between cursor-pointer border-b-2 border-r-4 border-gray-0 rounded-lg bg-gray-0 shadow-lg overflow-hidden transition-transform duration-300 ease-in-out transform hover:scale-105 active:translate-x-1 active:translate-y-1 group"
         >
           <AiOutlinePlus />
         </button>
@@ -69,7 +83,7 @@ const ProductPage = ({ product, images }) => {
       </div>
 
       <ToastContainer />
-    </div>
+    </motion.div>
   );
 };
 
