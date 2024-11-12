@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { toast, ToastContainer } from "react-toastify";
@@ -10,6 +10,7 @@ import { addToWishList } from "../redux/wishListSlice";
 import { motion } from "framer-motion";
 
 const ProductPage = ({ product, images }) => {
+  const [wishlist, setWishlist] = useState(false);
   const dispatch = useDispatch();
   const handleAddToCart = (e, product) => {
     e.stopPropagation();
@@ -19,8 +20,14 @@ const ProductPage = ({ product, images }) => {
   };
 
   const handleAddToWishList = () => {
-    dispatch(addToWishList(product)); // Correctly dispatch the action here
-    toast("Added to wishlist ");
+    if (!wishlist) {
+      dispatch(addToWishList(product));
+      toast("Added to wishlist");
+    } else {
+      // Handle removing from wishlist if desired
+      toast("Removed from wishlist");
+    }
+    setWishlist(!wishlist); // Toggle wishlist state
   };
 
   return (
@@ -48,20 +55,9 @@ const ProductPage = ({ product, images }) => {
                 alt={product.name}
                 className="w-full h-full object-contain mx-auto  rounded-md"
               />
-              <button
-                title="Add to Wishlist"
-                onClick={handleAddToWishList}
-                className="bg-gray-100 p-2 rounded-full absolute top-4 right-2"
-              >
-                <span>
-                  {" "}
-                  <CiHeart />
-                </span>
-              </button>
             </div>
 
             <div className="flex flex-row space-x-2 items-center ">
-              {/* Product Name and Description */}
               <h3 className="text-[15px] font-light text-gray-800 truncate">
                 {product.name}
               </h3>
@@ -70,20 +66,20 @@ const ProductPage = ({ product, images }) => {
               <p className="text-[12px] font-extralight text-black ">
                 ₦{product.price}
               </p>
-
-              {/* Add to Cart Button */}
             </div>
           </div>
         </Link>
-        {/*   <div className="mt-4 md:mt-0 flex justify-between">
-          <button
-            onClick={(e) => handleAddToCart(e, product)}
-            className="relative flex items-center px-8 py-1 justify-between cursor-pointer border-b-2 border-r-4 border-gray-0 rounded-lg bg-gray-0 shadow-lg overflow-hidden transition-transform duration-300 ease-in-out transform hover:scale-105 active:translate-x-1 active:translate-y-1 group"
-          >
-            <AiOutlinePlus />
-          </button>
-        </div> */}
-
+        <button
+          title="Add to Wishlist"
+          onClick={handleAddToWishList}
+          className={`p-2 rounded-full ${
+            wishlist ? "bg-red-100" : "bg-gray-100"
+          }`}
+        >
+          <span>
+            <CiHeart className="text-black" />
+          </span>
+        </button>
         <ToastContainer />
       </motion.div>
     </div>

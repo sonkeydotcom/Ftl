@@ -17,6 +17,7 @@ import "swiper/css";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { CiStar } from "react-icons/ci";
 import { FaStar } from "react-icons/fa6";
+import { motion } from "framer-motion";
 
 const ProductMainDetails = () => {
   const { id } = useParams();
@@ -80,7 +81,11 @@ const ProductMainDetails = () => {
   };
   const cartItem = cart.product.find((item) => item.id === product.id);
   return (
-    <div>
+    <motion.div
+      initial={{ opacity: 0, y: 20 }} // Initial state: fade in from below
+      animate={{ opacity: 1, y: 0 }} // Final state: fully visible
+      transition={{ duration: 0.8, ease: "easeInOut" }} // Smooth transition
+    >
       <div className="pt-4">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row -mx-4">
@@ -221,7 +226,7 @@ const ProductMainDetails = () => {
                 <div>
                   <span className="font-bold text-black">Price:</span>
                   <span className="text-black font-bold text-[22px]">
-                    ₦ {product.price}
+                    ₦{product.price}
                   </span>
                 </div>
                 <div>
@@ -252,7 +257,7 @@ const ProductMainDetails = () => {
           >
             <CiHeart />
           </button> */}
-    </div>
+    </motion.div>
   );
 };
 

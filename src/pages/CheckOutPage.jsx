@@ -3,7 +3,9 @@ import { FaAngleDown, FaAngleUp } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import { useNavigate, useLocation } from "react-router-dom";
 import { TbTruckDelivery } from "react-icons/tb";
+import { SlCalender } from "react-icons/sl";
 import { FaPersonWalkingLuggage } from "react-icons/fa6";
+import { BsCreditCard2BackFill } from "react-icons/bs";
 
 const CheckoutPage = () => {
   const location = useLocation(); // Use location hook to get passed state
@@ -29,7 +31,7 @@ const CheckoutPage = () => {
   });
 
   const [paymentMethod, setPaymentMethod] = useState(
-    location.state?.paymentMethod || "COD"
+    location.state?.paymentMethod || "Debit Card"
   );
 
   const cart = useSelector((state) => state.cart);
@@ -406,49 +408,84 @@ const CheckoutPage = () => {
 
                 {/* Conditional Rendering for Debit or Credit Card Payment */}
                 {paymentMethod === "Debit Card" && (
-                  <div className="bg-gray-100 p-4 rounded mb-4">
-                    <h3 className="text-xl font-semibold mb-4">
+                  <div className="shadow py-4  md:px-5  px-2  rounded mb-4">
+                    <h3 className="text-xl font-semibold my-4">
                       Debit or Credit Card Payment
                     </h3>
-                    <div className="mb-4">
-                      <label className="block text-gray-700 font-semibold mb-2">
-                        Card Number
-                      </label>
-                      <input
-                        type="text"
-                        placeholder="Card number"
-                        className="border p-2 w-full rounded"
-                      />
-                    </div>
-                    <div className="mb-4">
-                      <label className="block text-gray-700 font-semibold mb-2">
-                        Card Holder Name
-                      </label>
-                      <input
-                        type="text"
-                        placeholder="Card Holder Name"
-                        className="border p-2 w-full rounded"
-                      />
-                    </div>
-                    <div className="mb-4">
-                      <label className="block text-gray-700 font-semibold mb-2">
-                        Expiration Date
-                      </label>
-                      <input
-                        type="text"
-                        placeholder="MM/YY"
-                        className="border p-2 w-full rounded"
-                      />
-                    </div>
-                    <div className="mb-4">
-                      <label className="block text-gray-700 font-semibold mb-2">
-                        CVV
-                      </label>
-                      <input
-                        type="text"
-                        placeholder="CVV"
-                        className="border p-2 w-full rounded"
-                      />
+                    <div className="">
+                      <div className="flex items-center flex-col md:flex-row w-full md:space-x-3">
+                        <div className="mb-4 w-full">
+                          <label className="block text-black font-light text-[14px] ">
+                            Card Name{" "}
+                          </label>
+                          <input
+                            type="text"
+                            placeholder="Card Holder Name"
+                            className="border p-2 w-full rounded placeholder:text-[10px] placeholder:text-black"
+                          />
+                        </div>
+
+                        <div className="mb-4 w-full">
+                          <label className="block text-gray-700 font-light text-[14px] ">
+                            Card Number
+                          </label>
+                          <input
+                            type="number"
+                            placeholder="0000 0000 0000 0000"
+                            className="border p-2 w-full rounded placeholder:text-[10px] placeholder:text-black"
+                            maxLength="19" // 16 digits plus 3 spaces
+                            pattern="^\d{4} \d{4} \d{4} \d{4}$" // Enforces the 0000 0000 0000 0000 format
+                            title="Please enter a valid card number in the format 0000 0000 0000 0000"
+                            required
+                          />
+                        </div>
+                      </div>
+
+                      <div className="flex items-center flex-col md:flex-row w-full md:space-x-3">
+                        {/* Card Expiration Input with Icon on the Left */}
+                        <div className="mb-4 w-full relative">
+                          <label className="block text-gray-700 font-light text-[14px] mb-1">
+                            Card Expiration*
+                          </label>
+                          <div className="relative">
+                            <span className="absolute inset-y-0 left-2 flex items-center text-gray-500">
+                              <SlCalender />
+                            </span>
+                            <input
+                              type="number"
+                              placeholder="MM/YY"
+                              className="border p-2 w-full pl-8 rounded placeholder:text-[10px] placeholder:text-black"
+                              maxLength="5"
+                              pattern="^(0[1-9]|1[0-2])\/\d{2}$" // MM/YY format, with MM between 01 and 12
+                              title="Please enter a valid date in MM/YY format"
+                              required
+                            />
+                          </div>
+                        </div>
+
+                        {/* CVC Input with Icon on the Right */}
+                        <div className="mb-4 w-full relative">
+                          <label className="block text-gray-700 font-light text-[14px] mb-1">
+                            CVC
+                          </label>
+                          <div className="relative">
+                            <input
+                              type="number"
+                              placeholder="CVC"
+                              className="border p-2 w-full pr-8 rounded placeholder:text-[10px] placeholder:text-black"
+                              maxLength="3"
+                              minLength="3"
+                              pattern="\d{3}" // Regex pattern for exactly 3 digits
+                              title="CVC should be exactly 3 digits"
+                              required
+                            />
+
+                            <span className="absolute inset-y-0 right-2 flex items-center text-gray-500">
+                              <BsCreditCard2BackFill />
+                            </span>
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 )}
@@ -457,7 +494,7 @@ const CheckoutPage = () => {
           </div>
 
           {/* Order Summary */}
-          <div className="bg-slate-800">
+          <div className="  bg-[#090514] shadow max-h-[500px]">
             <div className="text-white p-6 rounded-lg shadow ">
               <h3 className="text-lg font-semibold mb-4">Order Summary</h3>
               <div className="space-y-4">
@@ -497,7 +534,7 @@ const CheckoutPage = () => {
                 <button
                   onClick={handleOrder}
                   disabled={Object.keys(errors).length > 0}
-                  className="relative group cursor-pointer text-sky-50 mx-auto overflow-hidden h-12 w-64 rounded-md bg-indigo-600 my-4 flex justify-center items-center font-extrabold"
+                  className="relative group cursor-pointer text-sky-50 mx-auto overflow-hidden h-12 w-64 rounded-md bg-[#e11d48] my-4 flex justify-center items-center font-extrabold"
                 >
                   <p className="capitalize">Place Order</p>
                 </button>

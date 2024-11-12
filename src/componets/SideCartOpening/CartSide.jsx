@@ -36,6 +36,7 @@ const CartSide = ({
       productId: product.id,
       quantity: product.quantity,
     }));
+    console.log("Order items being sent:", orderItems);
 
     try {
       const response = await axios.post(
@@ -46,7 +47,10 @@ const CartSide = ({
       );
       console.log("Order created successfully:", response.data);
     } catch (error) {
-      console.error("Error creating order:", error.data);
+      console.error(
+        "Error creating order:",
+        error.response?.data || error.message
+      );
     }
   };
 

@@ -11,7 +11,6 @@ import SearchPage from "./pages/SearchPage";
 import Cartpage from "./pages/Cartpage";
 import ProductDetails from "./pages/ProductDetails";
 import CheckOutPage from "./pages/CheckOutPage";
-import OrderComfirmation from "./pages/OrderComfirmation";
 import { useState } from "react";
 import FilterDataPage from "./pages/FilterDataPage";
 import ResposiveNavBar from "./componets/NavBar/ResposiveNavBar";
@@ -23,6 +22,7 @@ import Whatsapp from "./componets/Whatsapp/Whatsapp";
 import CheckoutPage from "./pages/CheckOutPage";
 import { CheckOutPage1 } from "./pages/checkout/CheckOutPage1";
 import ProductMainDetails from "./pages/ProductDetailPage/ProductMainDetails";
+import OrderComfirmationPage from "./pages/orderComfirmationPage/OrderComfirmationPage";
 
 function App() {
   const [order, setOrder] = useState(null);
@@ -48,7 +48,10 @@ function App() {
             element={<CheckOutPage setOrder={setOrder} />}
           />
           <Route path="/filter" element={<FilterDataPage />} />
-          <Route path="/order-confirmation" element={<OrderComfirmation />} />
+          <Route
+            path="/order-confirmation"
+            element={<OrderComfirmationPage />}
+          />
         </Routes>
 
         <ToastContainer />

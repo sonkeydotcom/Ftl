@@ -1,10 +1,14 @@
 import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { clearCart } from "../redux/CartSlice";
 import { useDispatch } from "react-redux";
 import { FiEdit } from "react-icons/fi";
+import { clearCart } from "../../redux/CartSlice";
+import email from "./email.png";
+import address from "./address.png";
+import phone from "./phone.png";
+import person from "./person.png";
 
-const OrderConfirmation = () => {
+const OrderComfirmationPage = () => {
   const location = useLocation();
   const { billingInfo, shippingInfo, paymentMethod, cart } = location.state;
   const navigate = useNavigate();
@@ -47,15 +51,19 @@ const OrderConfirmation = () => {
               Billing Information
             </h3>
             <div className="space-y-1">
-              <p className="text-lg text-gray-700">
-                Name: <span className="font-semibold">{billingInfo.name}</span>
+              <p className="text-lg text-gray-700 flex items-center  ">
+                <img src={person} className="w-[30px] h-[25px]" />
+                <span className="mr-1 font-extrabold">:</span>
+                <span className="font-semibold">{billingInfo.name}</span>
               </p>
-              <p className="text-lg text-gray-700">
-                Email:{" "}
+              <p className="text-lg text-gray-700 flex items-center py-2">
+                <img src={email} className="w-[30px] h-[25px]" />{" "}
+                <span className="mr-1">:</span>
                 <span className="font-semibold">{billingInfo.email}</span>
               </p>
-              <p className="text-lg text-gray-700">
-                Phone:{" "}
+              <p className="text-lg text-gray-700 flex items-center">
+                <img src={phone} className="w-[30px] h-[25px]" />
+                <span className="mr-1">:</span>
                 <span className="font-semibold">{billingInfo.phone}</span>
               </p>
             </div>
@@ -66,16 +74,14 @@ const OrderConfirmation = () => {
             <h3 className="text-2xl font-semibold text-gray-800">
               Shipping Information
             </h3>
-            <div className="space-y-1">
-              <p className="text-lg text-gray-700">
-                Address:{" "}
-                <span className="font-semibold">{shippingInfo.address}</span>
-              </p>
-              <p className="text-lg text-gray-700">
-                City: <span className="font-semibold">{shippingInfo.city}</span>
-              </p>
-              <p className="text-lg text-gray-700">
-                Zip: <span className="font-semibold">{shippingInfo.zip}</span>
+            <div className="space-y-1 ">
+              <p className="text-lg text-gray-700 flex items-center">
+                <img src={address} className="w-[30px] h-[25px]" />{" "}
+                <span className="mr-1">:</span>
+                <span className="font-semibold">
+                  {shippingInfo.address} {shippingInfo.city}{" "}
+                  {shippingInfo.state} ({shippingInfo.zip})
+                </span>
               </p>
             </div>
           </div>
@@ -97,7 +103,7 @@ const OrderConfirmation = () => {
               {cart.product.map((product, index) => (
                 <div key={index} className="flex justify-between items-center">
                   <p className="text-lg text-gray-700">
-                    {product.name} -
+                    {product.name} <span className="mr-2">:</span>
                     <span className="font-semibold">₦{product.price}</span> x ({" "}
                     {product.quantity})
                   </p>
@@ -119,7 +125,7 @@ const OrderConfirmation = () => {
         <div className="mt-8 flex justify-around">
           <button
             onClick={editInfoFunction}
-            className="bg-black text-white px-8 py-3 rounded-md font-semibold hover:bg-indigo-700 transition duration-300 flex  items-center"
+            className="bg-black text-white px-4 py-3 rounded-md font-semibold hover:bg-gray-700 transition duration-300 flex  items-center"
           >
             <span className="mr-2">
               <FiEdit />
@@ -128,7 +134,7 @@ const OrderConfirmation = () => {
           </button>
           <button
             onClick={continueShopping}
-            className="bg-indigo-600 text-white px-8 py-3 rounded-md font-semibold hover:bg-indigo-700 transition duration-300"
+            className="bg-indigo-600 text-white px-4 py-3 rounded-md font-semibold hover:bg-indigo-700 transition duration-300"
           >
             Continue Shopping
           </button>
@@ -138,4 +144,4 @@ const OrderConfirmation = () => {
   );
 };
 
-export default OrderConfirmation;
+export default OrderComfirmationPage;
