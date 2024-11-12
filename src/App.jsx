@@ -15,7 +15,6 @@ import OrderComfirmation from "./pages/OrderComfirmation";
 import { useState } from "react";
 import FilterDataPage from "./pages/FilterDataPage";
 import ResposiveNavBar from "./componets/NavBar/ResposiveNavBar";
-import LoginPage from "./pages/LoginPage";
 import NewArrivals from "./pages/NewArrivals/NewArrivals";
 import TopSales from "./pages/TopSales/TopSales";
 import BestCollections from "./pages/BestCollections/BestCollections";
@@ -23,7 +22,7 @@ import AllProduct from "./pages/AllProduct/AllProduct";
 import Whatsapp from "./componets/Whatsapp/Whatsapp";
 import CheckoutPage from "./pages/CheckOutPage";
 import { CheckOutPage1 } from "./pages/checkout/CheckOutPage1";
-import LoginUser from "./pages/Users/LoginUser";
+import ProductMainDetails from "./pages/ProductDetailPage/ProductMainDetails";
 
 function App() {
   const [order, setOrder] = useState(null);
@@ -43,14 +42,13 @@ function App() {
 
           <Route path="/cart" element={<Cartpage />} />
           <Route path="/products" element={<AllProduct />} />
-          <Route path="/products/:id" element={<ProductDetails />} />
+          <Route path="/products/:id" element={<ProductMainDetails />} />
           <Route
             path="/checkout"
             element={<CheckOutPage setOrder={setOrder} />}
           />
           <Route path="/filter" element={<FilterDataPage />} />
           <Route path="/order-confirmation" element={<OrderComfirmation />} />
-          <Route path="/login" element={<LoginUser />} />
         </Routes>
 
         <ToastContainer />

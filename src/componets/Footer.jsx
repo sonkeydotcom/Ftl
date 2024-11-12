@@ -8,12 +8,12 @@ import { motion } from "framer-motion";
 
 const Footer = () => {
   return (
-    <div className="bg-black pt-5 pb-2 px-3 md:px-4">
+    <div className="bg-black pt-5 pb-2 px-3 md:px-4 overflow-hidden">
       <div className="bg-white flex flex-col">
         <div className="bg-white flex flex-col md:flex-row px-2 md:px-[30px] justify-between mb-5 border-black border-b-[1px] mb:border-b-[0px]">
           {/* Contact Section */}
           <motion.div
-            className="p-4 flex flex-col md:w-[25%] w-full md:border-r-[1px] border-black md:border-b-0 border-b-2"
+            className="p-4 flex flex-col md:w-[25%] w-full md:border-r-[1px] border-black md:border-b-0 border-b-2 overflow-hidden"
             initial={{ opacity: 0, x: 100 }}
             whileInView={{
               opacity: 1,

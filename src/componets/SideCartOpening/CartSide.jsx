@@ -13,7 +13,6 @@ import {
 } from "../../redux/CartSlice";
 import ChangeAddress from "../../pages/ChangeAddress";
 import { Link, useNavigate } from "react-router-dom";
-import { setProduct } from "../../redux/ProductSlice";
 import { useAuth } from "../../ContextAuth/ContextAuth";
 
 const CartSide = ({
@@ -73,6 +72,10 @@ const CartSide = ({
     }
   }, [openCart]);
 
+  const goToHome = () => {
+    handleCartClose();
+  };
+
   return (
     <div>
       {openCart && (
@@ -120,6 +123,11 @@ const CartSide = ({
                                   {product.name}
                                 </p>
                                 <p className="font-mono">₦{product.price}</p>
+                              </div>
+
+                              <div>
+                                <span>{product.color}</span>
+                                <span>{product.size}</span>
                               </div>
                               <div className="flex justify-between w-full items-center">
                                 <div className="flex p-2 border items-center justify-between w-[100px] my-2">
@@ -241,7 +249,7 @@ const CartSide = ({
                   </div>
                   <div className="flex items-center justify-center py-3">
                     <button
-                      onClick={checkoutHandle}
+                      onClick={goToHome}
                       className="relative group cursor-pointer text-sky-50 overflow-hidden h-12 w-64 rounded-md bg-black flex justify-center items-center font-extrabold"
                     >
                       <p className="z-10 capitalize">shop now</p>

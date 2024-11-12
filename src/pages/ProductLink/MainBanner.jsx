@@ -39,7 +39,7 @@ const MainBanner = () => {
             <button className="flex items-center justify-center bg-indigo-600 text-white font-semibold h-[50px] w-[150px] md:w-[180px] md:py-3 md:px-6 rounded-md hover:bg-indigo-700 transition duration-300">
               Shop Now <IoBagCheckOutline className="ml-2" />
             </button>
-            <button className="flex items-center justify-center bg-indigo-600 text-white font-semibold sd:h-[50px] sd:w-[184px] md:py-3 md:px-6 rounded-md hover:bg-indigo-700 transition duration-300">
+            <button className="flex items-center px-2 justify-center bg-indigo-600 text-white font-semibold sd:h-[50px] sd:w-[184px] md:py-3 md:px-6 rounded-md hover:bg-indigo-700 text-[15px] transition duration-300">
               Explore Collections{" "}
               <WiDirectionRight className="ml-2 text-[20px]" />
             </button>

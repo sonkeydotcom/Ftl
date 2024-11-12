@@ -29,7 +29,7 @@ const HomePage = () => {
   }, [dispatch]);
 
   return (
-    <div>
+    <div className="overflow-hidden">
       <div className="bg-indigo-50 flex flex-col">
         <MainBanner />
         <HomeBanner2 />

@@ -42,46 +42,47 @@ const ProductPage = ({ product, images }) => {
         <Link to={`/products/${product.id}`} className="w-full">
           <div className="mx-2 rounded my-4 relative transform transition-transform duration-300">
             {/* Product Image */}
-            <div className="w-full h-[250px]">
+            <div className="w-full h-[250px] relative">
               <img
                 src={images[0]}
                 alt={product.name}
-                className="w-full h-full object-contain mx-auto rounded-md"
+                className="w-full h-full object-contain mx-auto  rounded-md"
               />
+              <button
+                title="Add to Wishlist"
+                onClick={handleAddToWishList}
+                className="bg-gray-100 p-2 rounded-full absolute top-4 right-2"
+              >
+                <span>
+                  {" "}
+                  <CiHeart />
+                </span>
+              </button>
             </div>
 
-            <div className="flex flex-col mt-4">
+            <div className="flex flex-row space-x-2 items-center ">
               {/* Product Name and Description */}
-              <h3 className="text-lg font-semibold text-gray-800 truncate">
+              <h3 className="text-[15px] font-light text-gray-800 truncate">
                 {product.name}
               </h3>
 
-              <p className="text-gray-500 truncate">{product.description}</p>
-
               {/* Product Price */}
-              <p className="text-xl font-bold text-indigo-600 mt-2">
-                ${product.price}
+              <p className="text-[12px] font-extralight text-black ">
+                ₦{product.price}
               </p>
 
               {/* Add to Cart Button */}
             </div>
           </div>
         </Link>
-        <div className="mt-4 md:mt-0 flex justify-between">
+        {/*   <div className="mt-4 md:mt-0 flex justify-between">
           <button
             onClick={(e) => handleAddToCart(e, product)}
             className="relative flex items-center px-8 py-1 justify-between cursor-pointer border-b-2 border-r-4 border-gray-0 rounded-lg bg-gray-0 shadow-lg overflow-hidden transition-transform duration-300 ease-in-out transform hover:scale-105 active:translate-x-1 active:translate-y-1 group"
           >
             <AiOutlinePlus />
           </button>
-          <button
-            onClick={handleAddToWishList}
-            className="relative flex items-center px-4 py-1 justify-between cursor-pointer border-b-2 border-r-4 border-gray-0 rounded-lg bg-gray-0 shadow-lg overflow-hidden transition-transform duration-300 ease-in-out transform hover:scale-105 active:translate-x-1 active:translate-y-1 group"
-            title="Add to Wishlist" // Tooltip text
-          >
-            <CiHeart />
-          </button>
-        </div>
+        </div> */}
 
         <ToastContainer />
       </motion.div>

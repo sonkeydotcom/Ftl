@@ -7,8 +7,8 @@ import UserProfile from "./UserProfile";
 const LoginSlide = ({ handleLoginClose, openLogin }) => {
   const [showMenu, setShowMenu] = useState(false);
   const [isSignup, setIsSignup] = useState(false);
-  const { login } = useAuth(); // Get login function from context
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const { login, logout, isAuthenticated } = useAuth(); // Get login function from context
+  /*   const [isAuthenticated, setIsAuthenticated] = useState(false); */
 
   useEffect(() => {
     if (openLogin) {
@@ -20,15 +20,15 @@ const LoginSlide = ({ handleLoginClose, openLogin }) => {
   }, [openLogin]);
 
   // LOGIN FUNCTION
-  const loginUser = (email, password) => {
+  const loginUser = (email, password, fullName) => {
     axios
       .post("https://ftl-server.onrender.com/api/auth/login", {
         email,
         password,
       })
       .then((response) => {
-        login(response.data.token); // Save token using login function from context
-        setIsAuthenticated(true); // Set authenticated state to true
+        const userData = { email, password, fullName }; // Add more user data as needed
+        login(response.data.token, userData); // Save token and user data in context
         handleLoginClose();
       })
       .catch((error) => {
@@ -38,7 +38,6 @@ const LoginSlide = ({ handleLoginClose, openLogin }) => {
 
   // SIGNUP FUNCTION
   const signupUser = (email, password, fullName) => {
-    console.log("Email:", email, "Password:", password, "Fullname:", fullName);
     axios
       .post("https://ftl-server.onrender.com/api/auth/register", {
         email,
@@ -46,8 +45,8 @@ const LoginSlide = ({ handleLoginClose, openLogin }) => {
         fullName,
       })
       .then((response) => {
-        login(response.data.token); // Save token using login function from context
-        setIsAuthenticated(true); // Set authenticated state to true
+        const userData = { email, fullName }; // Add more user data as needed
+        login(response.data.token, userData); // Save token and user data in context
         handleLoginClose();
       })
       .catch((error) => {
@@ -68,7 +67,7 @@ const LoginSlide = ({ handleLoginClose, openLogin }) => {
           >
             <div className="flex justify-between items-center mb-10">
               <h1 className="text-[20px] font-bold">
-                {isSignup ? "Sign Up" : "Login"}
+                {isAuthenticated ? "Profile" : isSignup ? "Sign Up" : "Login"}
               </h1>
               <RiCloseLargeLine
                 className="md:text-[25px] text-[20px] cursor-pointer"
@@ -181,9 +180,7 @@ const LoginSlide = ({ handleLoginClose, openLogin }) => {
                   className="bg-white p-2 text-black border-black border-2 rounded my-4"
                   onClick={() => setIsSignup((prev) => !prev)}
                 >
-                  {isSignup
-                    ? "Already have an account? Login"
-                    : "Create Account"}
+                  {isSignup ? " have an account? Login" : "Create Account"}
                 </button>
               </div>
             )}
