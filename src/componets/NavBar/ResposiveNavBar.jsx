@@ -53,7 +53,13 @@ const ResposiveNavBar = () => {
         closeSearchHandle={closeSearchHandle}
         openSearch={openSearch}
       />
-      <CartSide handleCartClose={handleCartClose} openCart={openCart} />
+      <CartSide
+        handleCartClose={handleCartClose}
+        openCart={openCart}
+        handleLoginClose={handleLoginClose}
+        openLogin={openLogin}
+        handleLoginOpen={handleLoginOpen}
+      />
       <LoginSlide handleLoginClose={handleLoginClose} openLogin={openLogin} />
     </div>
   );

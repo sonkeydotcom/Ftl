@@ -92,7 +92,7 @@ const MobileNavBar = ({ closeMenuHandle, isOpen }) => {
             </div>
             <div className="border-y-2 my-4 py-4 flex items-center">
               <BsPersonCircle className="mr-4" />
-              <Link>
+              <Link to="/login">
                 <span className="text-[18px] font-semibold cursor-pointer">
                   Login
                 </span>

@@ -5,6 +5,7 @@ import emprtybag1 from "./emptybag.jpg";
 import Modal from "../../Modal/Modal";
 import { FiMinus } from "react-icons/fi";
 import { GoPlus } from "react-icons/go";
+import axios from "axios";
 import {
   decreaseQuantity,
   increaseQuantity,
@@ -12,22 +13,52 @@ import {
 } from "../../redux/CartSlice";
 import ChangeAddress from "../../pages/ChangeAddress";
 import { Link, useNavigate } from "react-router-dom";
+import { setProduct } from "../../redux/ProductSlice";
+import { useAuth } from "../../ContextAuth/ContextAuth";
 
-const CartSide = ({ openCart, handleCartClose }) => {
+const CartSide = ({
+  openCart,
+  handleCartClose,
+  handleLoginOpen,
+  openLogin,
+}) => {
   const [showMenu, setShowMenu] = useState(false);
   const cart = useSelector((state) => state.cart);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [address, setAddress] = useState("enter address here  ");
+  const [address, setAddress] = useState("enter address here");
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isLoginOpen, setIsLoginOpen] = useState(false); // Add state to control LoginSlide visibility
+  const { isAuthenticated } = useAuth(); // Check if the user is authenticated
 
-  // function for closecart and proceed to checkout page
-  const checkoutHandle = () => {
-    handleCartClose();
-    navigate("/");
+  // CREATE ORDER TO SEND TO API FUNCTION////
+  const createOrder = async () => {
+    const orderItems = cart.product.map((product) => ({
+      productId: product.id,
+      quantity: product.quantity,
+    }));
+
+    try {
+      const response = await axios.post(
+        "http://ftl-server.onrender.com/api/orders/create",
+        {
+          orderItems: orderItems,
+        }
+      );
+      console.log("Order created successfully:", response.data);
+    } catch (error) {
+      console.error("Error creating order:", error.data);
+    }
   };
 
-  const proceedToCheckout = () => {
+  // PROCEEDDED TO CHECKPOUT FUNCTION HERE ///
+  const proceedToCheckout = async () => {
+    if (!isAuthenticated) {
+      handleCartClose();
+      handleLoginOpen(); // Open the login slide
+      return;
+    }
+    await createOrder(); // Create order before navigating
     handleCartClose();
     navigate("/checkout");
   };
@@ -37,7 +68,6 @@ const CartSide = ({ openCart, handleCartClose }) => {
     if (openCart) {
       setShowMenu(true);
     } else {
-      // Delay the state change to allow for slide out effect
       const timer = setTimeout(() => setShowMenu(false), 300);
       return () => clearTimeout(timer);
     }
@@ -51,12 +81,11 @@ const CartSide = ({ openCart, handleCartClose }) => {
             className={`bg-white md:w-[500px] z-10 absolute right-0 top-0 h-[100%] w-[330px] px-3 py-4 transition-transform duration-300 ease-in-out ${
               showMenu
                 ? "transform translate-x-50"
-                : "transform -translate-x-full" // Slide out to the left
+                : "transform -translate-x-full"
             }`}
           >
             <div>
               {cart.product.length > 0 ? (
-                // CART ITEMS DISPLAY HERE BELOW
                 <div className="bg-re-400">
                   <div className="flex justify-between items-center mb-10">
                     <div>
@@ -73,9 +102,7 @@ const CartSide = ({ openCart, handleCartClose }) => {
 
                   <div className="flex flex-col justify-between w-full mt-8">
                     <div className="shadow-2xl">
-                      <div
-                        className="overflow-y-auto max-h-[300px]" // Allows scrolling
-                      >
+                      <div className="overflow-y-auto max-h-[300px]">
                         {cart.product.map((product) => (
                           <div
                             key={product.id}
@@ -137,7 +164,6 @@ const CartSide = ({ openCart, handleCartClose }) => {
                       <div className="flex justify-between mb-5">
                         <span className="text-sm">Total Items:</span>
                         <span className="font-bold text-[16px]">
-                          {" "}
                           {cart.totalQuantity}
                         </span>
                       </div>
@@ -191,7 +217,7 @@ const CartSide = ({ openCart, handleCartClose }) => {
                     <div>
                       <h1 className="text-[20px] font-bold font-style:italic">
                         Shopping Cart
-                      </h1>{" "}
+                      </h1>
                     </div>
                     <RiCloseLargeLine
                       className="md:text-[25px] text-[20px] cursor-pointer"
@@ -199,7 +225,7 @@ const CartSide = ({ openCart, handleCartClose }) => {
                     />
                   </div>
                   <div>
-                    <h1 className="font-bold text-xl text-center uppercase text-gray-700 ">
+                    <h1 className="font-bold text-xl text-center uppercase text-gray-700">
                       Your bag is empty
                     </h1>
                   </div>

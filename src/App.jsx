@@ -23,6 +23,7 @@ import AllProduct from "./pages/AllProduct/AllProduct";
 import Whatsapp from "./componets/Whatsapp/Whatsapp";
 import CheckoutPage from "./pages/CheckOutPage";
 import { CheckOutPage1 } from "./pages/checkout/CheckOutPage1";
+import LoginUser from "./pages/Users/LoginUser";
 
 function App() {
   const [order, setOrder] = useState(null);
@@ -49,7 +50,7 @@ function App() {
           />
           <Route path="/filter" element={<FilterDataPage />} />
           <Route path="/order-confirmation" element={<OrderComfirmation />} />
-          <Route path="/Login" element={<LoginPage />} />
+          <Route path="/login" element={<LoginUser />} />
         </Routes>
 
         <ToastContainer />
