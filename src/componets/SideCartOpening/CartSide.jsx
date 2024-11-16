@@ -40,30 +40,38 @@ const CartSide = ({
 
     try {
       const response = await axios.post(
-        "http://ftl-server.onrender.com/api/orders/create",
+        "https://ftl-server.onrender.com/api/orders/create",
         {
           orderItems: orderItems,
+        },
+        {
+          withCredentials: true, // Send credentials with request
         }
       );
       console.log("Order created successfully:", response.data);
+      return { success: true };
     } catch (error) {
-      console.error(
-        "Error creating order:",
-        error.response?.data || error.message
-      );
+      // console.error(
+      //   "Error creating order:",
+      //   error.response?.data || error.message
+      // );
+      console.log("Error creating order:", error);
     }
   };
 
   // PROCEEDDED TO CHECKPOUT FUNCTION HERE ///
   const proceedToCheckout = async () => {
-    if (!isAuthenticated) {
-      handleCartClose();
-      handleLoginOpen(); // Open the login slide
-      return;
-    }
-    await createOrder(); // Create order before navigating
+    // if (!isAuthenticated) {
+    //   handleCartClose();
+    //   handleLoginOpen(); // Open the login slide
+    //   return;
+    // }
+    const res = await createOrder(); // Create order before navigating
     handleCartClose();
-    navigate("/checkout");
+    if (res.success) {
+      // navigate("/checkout");
+      alert("Order has been created successfully. Proceed to checkout.");
+    }
   };
 
   // useEffect for delayed transition

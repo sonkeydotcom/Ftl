@@ -22,12 +22,19 @@ const LoginSlide = ({ handleLoginClose, openLogin }) => {
   // LOGIN FUNCTION
   const loginUser = (email, password, fullName) => {
     axios
-      .post("https://ftl-server.onrender.com/api/auth/login", {
-        email,
-        password,
-      })
+      .post(
+        "https://ftl-server.onrender.com/api/auth/login",
+        {
+          email,
+          password,
+        },
+        {
+          withCredentials: true, // Send credentials with request
+        }
+      )
       .then((response) => {
         const userData = { email, password, fullName }; // Add more user data as needed
+        console.log("Login successful", response.data);
         login(response.data.token, userData); // Save token and user data in context
         handleLoginClose();
       })
